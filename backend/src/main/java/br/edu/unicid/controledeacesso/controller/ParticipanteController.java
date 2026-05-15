@@ -33,4 +33,9 @@ public class ParticipanteController {
     public Participante buscar(@PathVariable Long id) {
         return participanteService.buscar(id);
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Participante> buscarPorEmail(@PathVariable String email) {
+        return ResponseEntity.ok(participanteService.buscarPorEmail(email));
+    }
 }

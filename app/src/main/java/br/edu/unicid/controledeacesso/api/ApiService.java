@@ -30,12 +30,18 @@ public interface ApiService {
     @GET("api/participantes")
     Call<List<Participante>> listarParticipantes();
 
+    @GET("api/participantes/email/{email}")
+    Call<Participante> buscarParticipantePorEmail(@Path("email") String email);
+
     // Ingressos
     @POST("api/ingressos")
     Call<Ingresso> gerarIngresso(@Body IngressoRequest request);
 
     @GET("api/ingressos/evento/{eventoId}")
     Call<List<Ingresso>> listarIngressosPorEvento(@Path("eventoId") long eventoId);
+
+    @GET("api/ingressos/participante/{participanteId}")
+    Call<List<Ingresso>> listarIngressosPorParticipante(@Path("participanteId") long participanteId);
 
     // Check-in
     @POST("api/checkin")

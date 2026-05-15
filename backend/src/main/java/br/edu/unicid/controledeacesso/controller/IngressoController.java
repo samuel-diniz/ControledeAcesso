@@ -35,6 +35,11 @@ public class IngressoController {
         return ingressoService.listarPorEvento(eventoId);
     }
 
+    @GetMapping("/participante/{participanteId}")
+    public List<Ingresso> listarPorParticipante(@PathVariable Long participanteId) {
+        return ingressoService.listarPorParticipante(participanteId);
+    }
+
     @GetMapping("/{id}")
     public Ingresso buscar(@PathVariable Long id) {
         return ingressoService.buscar(id);

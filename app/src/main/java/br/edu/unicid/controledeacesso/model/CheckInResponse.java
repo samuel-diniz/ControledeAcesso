@@ -5,9 +5,11 @@ public class CheckInResponse {
     private String mensagem;
     private Participante participante;
     private Evento evento;
+    private String tipo;
 
     public String getResultado()          { return resultado; }
     public String getMensagem()           { return mensagem; }
     public Participante getParticipante() { return participante; }
     public Evento getEvento()             { return evento; }
+    public String getTipo()               { return tipo; }
 }

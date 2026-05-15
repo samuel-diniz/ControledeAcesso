@@ -9,5 +9,6 @@ import java.util.UUID;
 public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
     Optional<Ingresso> findByToken(UUID token);
     List<Ingresso> findByEventoId(Long eventoId);
+    List<Ingresso> findByParticipanteId(Long participanteId);
     long countByEventoIdAndStatus(Long eventoId, String status);
 }

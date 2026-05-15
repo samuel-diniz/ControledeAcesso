@@ -1,7 +1,6 @@
 package br.edu.unicid.controledeacesso.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,21 +11,18 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, length = 200)
     private String nome;
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime data;
 
     @Column(length = 200)
     private String local;
 
-    @Min(1)
     @Column(nullable = false)
     private int capacidade;
 

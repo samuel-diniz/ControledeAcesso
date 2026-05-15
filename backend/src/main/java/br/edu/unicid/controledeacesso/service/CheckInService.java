@@ -24,54 +24,80 @@ public class CheckInService {
     }
 
     @Transactional
-    public CheckInResponse validar(String tokenStr, String dispositivo) {
+    public CheckInResponse validar(String tokenStr, String dispositivo, String tipo) {
+        if (tipo == null || tipo.isBlank()) tipo = "ENTRADA";
+
         UUID token;
         try {
             token = UUID.fromString(tokenStr);
         } catch (IllegalArgumentException e) {
-            salvarLeitura(null, tokenStr, "INVALIDO", dispositivo);
-            return CheckInResponse.of("INVALIDO", "Token com formato inválido", null, null);
+            salvarLeitura(null, tokenStr, "INVALIDO", dispositivo, tipo);
+            return CheckInResponse.of("INVALIDO", "Token com formato invalido", null, null, tipo);
         }
 
         Optional<Ingresso> opt = ingressoRepository.findByToken(token);
 
         if (opt.isEmpty()) {
-            salvarLeitura(null, tokenStr, "INVALIDO", dispositivo);
-            return CheckInResponse.of("INVALIDO", "Token não encontrado", null, null);
+            salvarLeitura(null, tokenStr, "INVALIDO", dispositivo, tipo);
+            return CheckInResponse.of("INVALIDO", "Token nao encontrado", null, null, tipo);
         }
 
         Ingresso ingresso = opt.get();
+        String status = ingresso.getStatus();
 
-        if ("USADO".equals(ingresso.getStatus())) {
-            salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo);
-            return CheckInResponse.of("JA_USADO", "Ingresso já utilizado",
-                    ingresso.getParticipante(), ingresso.getEvento());
+        if ("ENTRADA".equals(tipo)) {
+            // ENTRADA: requires PENDENTE
+            if ("DENTRO".equals(status) || "SAIU".equals(status) || "USADO".equals(status)) {
+                salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
+                return CheckInResponse.of("JA_USADO", "Ingresso ja utilizado ou participante ja esta dentro",
+                        ingresso.getParticipante(), ingresso.getEvento(), tipo);
+            }
+
+            // Check capacity
+            long dentro = ingressoRepository.countByEventoIdAndStatus(
+                    ingresso.getEvento().getId(), "DENTRO");
+
+            if (dentro >= ingresso.getEvento().getCapacidade()) {
+                salvarLeitura(ingresso, tokenStr, "LOTADO", dispositivo, tipo);
+                return CheckInResponse.of("LOTADO", "Evento lotado — capacidade maxima atingida",
+                        null, ingresso.getEvento(), tipo);
+            }
+
+            ingresso.setStatus("DENTRO");
+            ingressoRepository.save(ingresso);
+            salvarLeitura(ingresso, tokenStr, "VALIDO", dispositivo, tipo);
+            return CheckInResponse.of("VALIDO", "Entrada registrada com sucesso",
+                    ingresso.getParticipante(), ingresso.getEvento(), tipo);
+
+        } else {
+            // SAIDA: requires DENTRO
+            if ("PENDENTE".equals(status)) {
+                salvarLeitura(ingresso, tokenStr, "NAO_ENTROU", dispositivo, tipo);
+                return CheckInResponse.of("NAO_ENTROU", "Participante nao registrou entrada",
+                        ingresso.getParticipante(), ingresso.getEvento(), tipo);
+            }
+            if ("SAIU".equals(status) || "USADO".equals(status)) {
+                salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
+                return CheckInResponse.of("JA_USADO", "Saida ja registrada anteriormente",
+                        ingresso.getParticipante(), ingresso.getEvento(), tipo);
+            }
+
+            ingresso.setStatus("SAIU");
+            ingressoRepository.save(ingresso);
+            salvarLeitura(ingresso, tokenStr, "VALIDO", dispositivo, tipo);
+            return CheckInResponse.of("VALIDO", "Saida registrada com sucesso",
+                    ingresso.getParticipante(), ingresso.getEvento(), tipo);
         }
-
-        long usados = ingressoRepository.countByEventoIdAndStatus(
-                ingresso.getEvento().getId(), "USADO");
-
-        if (usados >= ingresso.getEvento().getCapacidade()) {
-            salvarLeitura(ingresso, tokenStr, "LOTADO", dispositivo);
-            return CheckInResponse.of("LOTADO", "Evento lotado — capacidade máxima atingida",
-                    null, ingresso.getEvento());
-        }
-
-        ingresso.setStatus("USADO");
-        ingressoRepository.save(ingresso);
-        salvarLeitura(ingresso, tokenStr, "VALIDO", dispositivo);
-
-        return CheckInResponse.of("VALIDO", "Check-in realizado com sucesso",
-                ingresso.getParticipante(), ingresso.getEvento());
     }
 
     private void salvarLeitura(Ingresso ingresso, String tokenLido,
-                                String resultado, String dispositivo) {
+                                String resultado, String dispositivo, String tipo) {
         Leitura leitura = new Leitura();
         leitura.setIngresso(ingresso);
         leitura.setTokenLido(tokenLido);
         leitura.setResultado(resultado);
         leitura.setDispositivo(dispositivo);
+        leitura.setTipo(tipo);
         leituraRepository.save(leitura);
     }
 }

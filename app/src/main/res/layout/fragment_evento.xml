@@ -32,12 +32,41 @@
             android:inputType="textMultiLine"
             android:minLines="2" />
 
-        <EditText
-            android:id="@+id/et_evento_data"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Data e hora * (ex: 2026-06-15T18:00:00)"
-            android:inputType="text" />
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
+
+            <Button
+                android:id="@+id/btn_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="&#128197; Selecionar Data"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="#455A64" />
+
+            <Button
+                android:id="@+id/btn_hora"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="&#9200; Selecionar Hora"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="#455A64" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_data_hora_selecionada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nenhuma data/hora selecionada (opcional)"
+            android:textColor="#9E9E9E"
+            android:gravity="center"
+            android:layout_marginBottom="4dp" />
 
         <EditText
             android:id="@+id/et_evento_local"

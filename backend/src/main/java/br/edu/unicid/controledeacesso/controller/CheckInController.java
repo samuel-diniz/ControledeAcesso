@@ -18,6 +18,6 @@ public class CheckInController {
 
     @PostMapping
     public CheckInResponse validar(@RequestBody CheckInRequest request) {
-        return checkInService.validar(request.getToken(), request.getDispositivo());
+        return checkInService.validar(request.getToken(), request.getDispositivo(), request.getTipo());
     }
 }

@@ -26,9 +26,9 @@ public class IngressoService {
 
     public Ingresso gerar(Long eventoId, Long participanteId) {
         var evento = eventoRepository.findById(eventoId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento nao encontrado"));
         var participante = participanteRepository.findById(participanteId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante nao encontrado"));
 
         Ingresso ingresso = new Ingresso();
         ingresso.setEvento(evento);
@@ -44,8 +44,12 @@ public class IngressoService {
         return ingressoRepository.findByEventoId(eventoId);
     }
 
+    public List<Ingresso> listarPorParticipante(Long participanteId) {
+        return ingressoRepository.findByParticipanteId(participanteId);
+    }
+
     public Ingresso buscar(Long id) {
         return ingressoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingresso não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingresso nao encontrado"));
     }
 }

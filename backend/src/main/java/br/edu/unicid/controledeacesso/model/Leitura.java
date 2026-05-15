@@ -27,6 +27,9 @@ public class Leitura {
     @Column(length = 100)
     private String dispositivo;
 
+    @Column(name = "tipo", length = 20, nullable = true)
+    private String tipo;
+
     @PrePersist
     void prePersist() {
         if (lidoEm == null) lidoEm = LocalDateTime.now();
@@ -38,6 +41,7 @@ public class Leitura {
     public String getResultado()    { return resultado; }
     public LocalDateTime getLidoEm(){ return lidoEm; }
     public String getDispositivo()  { return dispositivo; }
+    public String getTipo()         { return tipo; }
 
     public void setId(Long id)                  { this.id = id; }
     public void setIngresso(Ingresso ingresso)  { this.ingresso = ingresso; }
@@ -45,4 +49,5 @@ public class Leitura {
     public void setResultado(String resultado)  { this.resultado = resultado; }
     public void setLidoEm(LocalDateTime t)      { this.lidoEm = t; }
     public void setDispositivo(String d)        { this.dispositivo = d; }
+    public void setTipo(String tipo)            { this.tipo = tipo; }
 }

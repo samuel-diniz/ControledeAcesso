@@ -26,6 +26,11 @@ public class ParticipanteService {
 
     public Participante buscar(Long id) {
         return participanteRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante nao encontrado"));
+    }
+
+    public Participante buscarPorEmail(String email) {
+        return participanteRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante nao encontrado para o e-mail: " + email));
     }
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Evento"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/spinner_evento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Contadores -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="#E3F2FD"
+            android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Capacidade" android:textSize="12sp" android:textColor="#555" />
+            <TextView android:id="@+id/tv_capacidade"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="—" android:textSize="28sp" android:textStyle="bold" android:textColor="#1565C0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="#E8F5E9"
+            android:layout_marginHorizontal="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Check-ins" android:textSize="12sp" android:textColor="#555" />
+            <TextView android:id="@+id/tv_checkins"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="—" android:textSize="28sp" android:textStyle="bold" android:textColor="#2E7D32" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="#FFF3E0"
+            android:layout_marginStart="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Restantes" android:textSize="12sp" android:textColor="#555" />
+            <TextView android:id="@+id/tv_restantes"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="—" android:textSize="28sp" android:textStyle="bold" android:textColor="#E65100" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leituras recentes (atualiza a cada 5s)"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_leituras"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

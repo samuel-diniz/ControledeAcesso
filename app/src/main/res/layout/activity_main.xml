@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Controle de Acesso"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1A237E"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        android:id="@+id/btn_admin"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Painel Admin"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#1565C0" />
+
+    <Button
+        android:id="@+id/btn_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Scanner QR Code"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#2E7D32" />
+
+    <Button
+        android:id="@+id/btn_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Meu Ingresso (QR)"
+        android:textSize="16sp"
+        android:backgroundTint="#6A1B9A" />
+
+</LinearLayout>

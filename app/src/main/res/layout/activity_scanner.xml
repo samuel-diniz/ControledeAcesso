@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Card de resultado sobreposto na parte inferior -->
+    <LinearLayout
+        android:id="@+id/card_resultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        android:background="#CC000000">
+
+        <TextView
+            android:id="@+id/tv_resultado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_participante_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tv_mensagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#CCFFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

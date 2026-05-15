@@ -4,19 +4,25 @@ import br.edu.unicid.controledeacesso.model.Ingresso;
 import br.edu.unicid.controledeacesso.repository.EventoRepository;
 import br.edu.unicid.controledeacesso.repository.IngressoRepository;
 import br.edu.unicid.controledeacesso.repository.ParticipanteRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class IngressoService {
 
     private final IngressoRepository ingressoRepository;
     private final EventoRepository eventoRepository;
     private final ParticipanteRepository participanteRepository;
+
+    public IngressoService(IngressoRepository ingressoRepository,
+                           EventoRepository eventoRepository,
+                           ParticipanteRepository participanteRepository) {
+        this.ingressoRepository    = ingressoRepository;
+        this.eventoRepository      = eventoRepository;
+        this.participanteRepository = participanteRepository;
+    }
 
     public Ingresso gerar(Long eventoId, Long participanteId) {
         var evento = eventoRepository.findById(eventoId)

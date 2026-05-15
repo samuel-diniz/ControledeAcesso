@@ -3,7 +3,6 @@ package br.edu.unicid.controledeacesso.controller;
 import br.edu.unicid.controledeacesso.dto.IngressoRequest;
 import br.edu.unicid.controledeacesso.model.Ingresso;
 import br.edu.unicid.controledeacesso.service.IngressoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ingressos")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class IngressoController {
 
     private final IngressoService ingressoService;
+
+    public IngressoController(IngressoService ingressoService) {
+        this.ingressoService = ingressoService;
+    }
 
     @PostMapping
     public ResponseEntity<Ingresso> gerar(@RequestBody IngressoRequest request) {

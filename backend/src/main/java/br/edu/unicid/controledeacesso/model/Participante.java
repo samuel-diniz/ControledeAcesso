@@ -2,15 +2,10 @@ package br.edu.unicid.controledeacesso.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "participante")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Participante {
 
     @Id
@@ -36,4 +31,16 @@ public class Participante {
     void prePersist() {
         if (criadoEm == null) criadoEm = LocalDateTime.now();
     }
+
+    public Long getId()                { return id; }
+    public String getNome()            { return nome; }
+    public String getEmail()           { return email; }
+    public String getTelefone()        { return telefone; }
+    public LocalDateTime getCriadoEm() { return criadoEm; }
+
+    public void setId(Long id)               { this.id = id; }
+    public void setNome(String nome)         { this.nome = nome; }
+    public void setEmail(String email)       { this.email = email; }
+    public void setTelefone(String tel)      { this.telefone = tel; }
+    public void setCriadoEm(LocalDateTime t) { this.criadoEm = t; }
 }

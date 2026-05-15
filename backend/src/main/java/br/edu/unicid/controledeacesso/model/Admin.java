@@ -1,15 +1,10 @@
 package br.edu.unicid.controledeacesso.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "admin")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Admin {
 
     @Id
@@ -29,4 +24,14 @@ public class Admin {
     void prePersist() {
         if (criadoEm == null) criadoEm = LocalDateTime.now();
     }
+
+    public Long getId()              { return id; }
+    public String getUsername()      { return username; }
+    public String getPasswordHash()  { return passwordHash; }
+    public LocalDateTime getCriadoEm() { return criadoEm; }
+
+    public void setId(Long id)                    { this.id = id; }
+    public void setUsername(String username)       { this.username = username; }
+    public void setPasswordHash(String h)         { this.passwordHash = h; }
+    public void setCriadoEm(LocalDateTime t)      { this.criadoEm = t; }
 }

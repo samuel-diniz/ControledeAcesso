@@ -92,14 +92,18 @@ public class DashboardFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Ingresso>> call, @NonNull Response<List<Ingresso>> r) {
                 if (!r.isSuccessful() || r.body() == null) return;
                 List<Ingresso> ingressos = r.body();
-                long usados = 0;
-                for (Ingresso i : ingressos) if ("USADO".equals(i.getStatus())) usados++;
-                final long checkins = usados;
+                long dentro = 0, saiu = 0;
+                for (Ingresso i : ingressos) {
+                    if ("DENTRO".equals(i.getStatus())) dentro++;
+                    else if ("SAIU".equals(i.getStatus())) saiu++;
+                }
+                final long totalEntradas = dentro + saiu; // todos que entraram
+                final long dentroAgora   = dentro;        // ainda no local
                 final int capacidade = eventoSelecionado.getCapacidade();
                 requireActivity().runOnUiThread(() -> {
                     tvCapacidade.setText(String.valueOf(capacidade));
-                    tvCheckins.setText(String.valueOf(checkins));
-                    tvRestantes.setText(String.valueOf(capacidade - checkins));
+                    tvCheckins.setText(dentroAgora + " dentro  |  " + totalEntradas + " entradas totais");
+                    tvRestantes.setText(String.valueOf(capacidade - dentroAgora));
                 });
             }
             @Override public void onFailure(@NonNull Call<List<Ingresso>> c, @NonNull Throwable t) {}

@@ -46,10 +46,16 @@ public class CheckInService {
         String status = ingresso.getStatus();
 
         if ("ENTRADA".equals(tipo)) {
-            // ENTRADA: requires PENDENTE
-            if ("DENTRO".equals(status) || "SAIU".equals(status) || "USADO".equals(status)) {
+            // Participante já está dentro — não pode entrar duas vezes
+            if ("DENTRO".equals(status)) {
                 salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
-                return CheckInResponse.of("JA_USADO", "Ingresso ja utilizado ou participante ja esta dentro",
+                return CheckInResponse.of("JA_USADO", "Participante ja esta dentro do evento",
+                        ingresso.getParticipante(), ingresso.getEvento(), tipo);
+            }
+            // Participante já entrou e saiu — ingresso encerrado, reentrada não permitida
+            if ("SAIU".equals(status) || "USADO".equals(status)) {
+                salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
+                return CheckInResponse.of("JA_USADO", "Ingresso encerrado — participante ja entrou e saiu. Reentrada nao permitida.",
                         ingresso.getParticipante(), ingresso.getEvento(), tipo);
             }
 

@@ -2,6 +2,8 @@ package br.edu.unicid.controledeacesso;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,6 +60,19 @@ public class ParticipanteLoginActivity extends AppCompatActivity {
 
     // — Participante logado
     private Participante participanteAtual = null;
+
+    // — Auto-refresh
+    private final Handler refreshHandler = new Handler(Looper.getMainLooper());
+    private static final long REFRESH_INTERVAL_MS = 10_000; // 10 segundos
+    private final Runnable refreshTask = new Runnable() {
+        @Override public void run() {
+            if (participanteAtual != null) {
+                carregarMinhasSolicitacoes();
+                carregarMeusIngressos();
+                refreshHandler.postDelayed(this, REFRESH_INTERVAL_MS);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +206,10 @@ public class ParticipanteLoginActivity extends AppCompatActivity {
 
         carregarMinhasSolicitacoes();
         carregarMeusIngressos();
+
+        // Inicia o auto-refresh a cada 10 segundos
+        refreshHandler.removeCallbacksAndMessages(null);
+        refreshHandler.postDelayed(refreshTask, REFRESH_INTERVAL_MS);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -307,6 +326,26 @@ public class ParticipanteLoginActivity extends AppCompatActivity {
         layoutMinhasSolicitacoes.setVisibility(View.GONE);
         layoutIngressos.setVisibility(View.GONE);
         participanteAtual = null;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Ciclo de vida — inicia/para o auto-refresh
+    // ─────────────────────────────────────────────────────────────────────────
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (participanteAtual != null) {
+            // Atualiza imediatamente ao voltar para a tela e agenda o ciclo
+            carregarMinhasSolicitacoes();
+            carregarMeusIngressos();
+            refreshHandler.postDelayed(refreshTask, REFRESH_INTERVAL_MS);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refreshHandler.removeCallbacksAndMessages(null);
     }
 
     private void toast(String msg) {

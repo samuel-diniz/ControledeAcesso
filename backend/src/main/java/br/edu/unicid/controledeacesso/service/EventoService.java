@@ -28,4 +28,19 @@ public class EventoService {
         return eventoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
     }
+
+    public Evento atualizar(Long id, Evento dados) {
+        Evento evento = buscar(id);
+        evento.setNome(dados.getNome());
+        evento.setDescricao(dados.getDescricao());
+        evento.setData(dados.getData());
+        evento.setLocal(dados.getLocal());
+        evento.setCapacidade(dados.getCapacidade());
+        return eventoRepository.save(evento);
+    }
+
+    public void deletar(Long id) {
+        buscar(id);
+        eventoRepository.deleteById(id);
+    }
 }

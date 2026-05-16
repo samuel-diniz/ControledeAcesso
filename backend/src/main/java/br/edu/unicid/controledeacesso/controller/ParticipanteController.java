@@ -38,4 +38,15 @@ public class ParticipanteController {
     public ResponseEntity<Participante> buscarPorEmail(@PathVariable String email) {
         return ResponseEntity.ok(participanteService.buscarPorEmail(email));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Participante> atualizar(@PathVariable Long id, @RequestBody Participante dados) {
+        return ResponseEntity.ok(participanteService.atualizar(id, dados));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        participanteService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

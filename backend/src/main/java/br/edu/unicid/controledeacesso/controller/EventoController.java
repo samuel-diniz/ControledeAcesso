@@ -32,4 +32,15 @@ public class EventoController {
     public Evento buscar(@PathVariable Long id) {
         return eventoService.buscar(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Evento> atualizar(@PathVariable Long id, @RequestBody Evento evento) {
+        return ResponseEntity.ok(eventoService.atualizar(id, evento));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        eventoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -21,9 +21,10 @@ public class AdminActivity extends AppCompatActivity {
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
-                case 0: tab.setText("Eventos");       break;
-                case 1: tab.setText("Participantes"); break;
-                case 2: tab.setText("Dashboard");     break;
+                case 0: tab.setText("Eventos");        break;
+                case 1: tab.setText("Participantes");  break;
+                case 2: tab.setText("Dashboard");      break;
+                case 3: tab.setText("Solicitações");   break;
             }
         }).attach();
     }

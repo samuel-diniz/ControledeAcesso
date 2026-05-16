@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="#F5F5F5">
 
     <!-- Header -->
     <LinearLayout
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Meu Ingresso"
+            android:text="Área do Participante"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -42,48 +42,202 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="20dp">
 
+            <!-- ══════════════════════════════════════════════
+                 BLOCO 1 — Identificação pelo e-mail
+            ══════════════════════════════════════════════ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar meus ingressos"
+                android:text="🔍 Identificação"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+                android:textColor="#212121"
+                android:layout_marginBottom="8dp" />
 
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Digite seu e-mail cadastrado"
+                android:hint="Digite seu e-mail"
                 android:inputType="textEmailAddress"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="8dp" />
 
             <Button
                 android:id="@+id/btn_buscar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Buscar meus ingressos"
-                android:backgroundTint="#1565C0"
-                android:layout_marginBottom="24dp" />
+                android:text="Entrar com e-mail"
+                android:backgroundTint="#1565C0" />
 
-            <TextView
-                android:id="@+id/tv_sem_ingressos"
+            <!-- ══════════════════════════════════════════════
+                 BLOCO 2 — Cadastro (visível quando e-mail não encontrado)
+            ══════════════════════════════════════════════ -->
+            <LinearLayout
+                android:id="@+id/layout_cadastro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nenhum ingresso encontrado para este e-mail."
-                android:textColor="#757575"
-                android:gravity="center"
+                android:orientation="vertical"
                 android:visibility="gone"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginTop="20dp"
+                android:background="#FFF8E1"
+                android:padding="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_meus_ingressos"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤 Primeiro acesso? Cadastre-se!"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#F57F17"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E-mail não encontrado. Preencha seus dados para se cadastrar:"
+                    android:textSize="13sp"
+                    android:textColor="#5D4037"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/et_nome_cadastro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Seu nome completo *"
+                    android:inputType="textPersonName"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/et_telefone_cadastro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Telefone (opcional)"
+                    android:inputType="phone"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btn_cadastrar_se"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cadastrar-se"
+                    android:backgroundTint="#F57F17" />
+
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════
+                 BLOCO 3 — Solicitar vaga em evento (visível após login)
+            ══════════════════════════════════════════════ -->
+            <LinearLayout
+                android:id="@+id/layout_solicitar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white"
+                android:elevation="2dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎟 Solicitar vaga em evento"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_eventos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btn_solicitar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Solicitar vaga"
+                    android:backgroundTint="#1565C0" />
+
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════
+                 BLOCO 4 — Minhas solicitações (visível após login)
+            ══════════════════════════════════════════════ -->
+            <LinearLayout
+                android:id="@+id/layout_minhas_solicitacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📋 Minhas solicitações"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_sem_solicitacoes_p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nenhuma solicitação ainda."
+                    android:textColor="#9E9E9E"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_minhas_solicitacoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════
+                 BLOCO 5 — Meus ingressos (visível após login)
+            ══════════════════════════════════════════════ -->
+            <LinearLayout
+                android:id="@+id/layout_ingressos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎫 Meus ingressos"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_sem_ingressos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nenhum ingresso aprovado ainda."
+                    android:textColor="#757575"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_meus_ingressos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

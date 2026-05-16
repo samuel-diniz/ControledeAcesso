@@ -2,40 +2,75 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="12dp"
     android:background="@android:color/white"
     android:layout_marginBottom="6dp"
-    android:gravity="center_vertical">
+    android:elevation="1dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/tv_participante_nome"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_participante_nome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_participante_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#666666" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_gerar_ingresso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_participante_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#666666" />
+            android:text="🎫 Ingresso"
+            android:textSize="11sp"
+            android:backgroundTint="#6A1B9A" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_gerar_ingresso"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingresso"
-        android:textSize="11sp"
-        android:backgroundTint="#6A1B9A" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_editar_participante"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✏ Editar"
+            android:textSize="11sp"
+            android:backgroundTint="#1565C0"
+            android:layout_marginEnd="4dp" />
+
+        <Button
+            android:id="@+id/btn_deletar_participante"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🗑 Excluir"
+            android:textSize="11sp"
+            android:backgroundTint="#C62828" />
+
+    </LinearLayout>
 
 </LinearLayout>

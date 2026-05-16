@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import br.edu.unicid.controledeacesso.fragment.DashboardFragment;
 import br.edu.unicid.controledeacesso.fragment.EventoFragment;
 import br.edu.unicid.controledeacesso.fragment.ParticipanteFragment;
+import br.edu.unicid.controledeacesso.fragment.SolicitacoesFragment;
 
 public class AdminPagerAdapter extends FragmentStateAdapter {
 
@@ -19,9 +20,10 @@ public class AdminPagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 1:  return new ParticipanteFragment();
             case 2:  return new DashboardFragment();
+            case 3:  return new SolicitacoesFragment();
             default: return new EventoFragment();
         }
     }
 
-    @Override public int getItemCount() { return 3; }
+    @Override public int getItemCount() { return 4; }
 }

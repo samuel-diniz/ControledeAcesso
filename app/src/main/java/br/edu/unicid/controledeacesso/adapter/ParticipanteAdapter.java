@@ -14,12 +14,18 @@ import java.util.List;
 
 public class ParticipanteAdapter extends RecyclerView.Adapter<ParticipanteAdapter.VH> {
 
-    public interface OnGerarIngresso { void onGerar(Participante participante); }
+    public interface OnGerarIngresso      { void onGerar(Participante participante); }
+    public interface OnEditarParticipante { void onEditar(Participante participante); }
+    public interface OnDeletarParticipante{ void onDeletar(Participante participante); }
 
     private final List<Participante> items = new ArrayList<>();
-    private OnGerarIngresso listener;
+    private OnGerarIngresso       gerarListener;
+    private OnEditarParticipante  editarListener;
+    private OnDeletarParticipante deletarListener;
 
-    public void setListener(OnGerarIngresso l) { this.listener = l; }
+    public void setListener(OnGerarIngresso l)          { this.gerarListener   = l; }
+    public void setOnEditarListener(OnEditarParticipante l) { this.editarListener  = l; }
+    public void setOnDeletarListener(OnDeletarParticipante l){ this.deletarListener = l; }
 
     public void setItems(List<Participante> list) {
         items.clear();
@@ -39,19 +45,24 @@ public class ParticipanteAdapter extends RecyclerView.Adapter<ParticipanteAdapte
         Participante p = items.get(pos);
         h.nome.setText(p.getNome());
         h.email.setText(p.getEmail());
-        h.btnGerar.setOnClickListener(v -> { if (listener != null) listener.onGerar(p); });
+        h.btnGerar.setOnClickListener(v -> { if (gerarListener != null) gerarListener.onGerar(p); });
+        h.btnEditar.setOnClickListener(v -> { if (editarListener != null) editarListener.onEditar(p); });
+        h.btnDeletar.setOnClickListener(v -> { if (deletarListener != null) deletarListener.onDeletar(p); });
     }
 
     @Override public int getItemCount() { return items.size(); }
 
     static class VH extends RecyclerView.ViewHolder {
         TextView nome, email;
-        Button btnGerar;
+        Button btnGerar, btnEditar, btnDeletar;
+
         VH(View v) {
             super(v);
-            nome     = v.findViewById(R.id.tv_participante_nome);
-            email    = v.findViewById(R.id.tv_participante_email);
-            btnGerar = v.findViewById(R.id.btn_gerar_ingresso);
+            nome      = v.findViewById(R.id.tv_participante_nome);
+            email     = v.findViewById(R.id.tv_participante_email);
+            btnGerar  = v.findViewById(R.id.btn_gerar_ingresso);
+            btnEditar = v.findViewById(R.id.btn_editar_participante);
+            btnDeletar= v.findViewById(R.id.btn_deletar_participante);
         }
     }
 }

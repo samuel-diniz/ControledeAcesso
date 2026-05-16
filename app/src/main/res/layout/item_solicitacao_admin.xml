@@ -9,26 +9,36 @@
     android:layout_marginBottom="8dp">
 
     <TextView
-        android:id="@+id/tv_evento_nome"
+        android:id="@+id/tv_sol_participante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#212121" />
 
     <TextView
-        android:id="@+id/tv_evento_local"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="#666666" />
-
-    <TextView
-        android:id="@+id/tv_evento_capacidade"
+        android:id="@+id/tv_sol_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:textColor="#757575"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:id="@+id/tv_sol_evento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
         android:textColor="#1565C0"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:id="@+id/tv_sol_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="#9E9E9E"
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,21 +46,21 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_editar_evento"
+            android:id="@+id/btn_aprovar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="✏ Editar"
+            android:text="✔ Aprovar"
             android:textSize="12sp"
-            android:backgroundTint="#1565C0"
+            android:backgroundTint="#2E7D32"
             android:layout_marginEnd="4dp" />
 
         <Button
-            android:id="@+id/btn_deletar_evento"
+            android:id="@+id/btn_rejeitar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="🗑 Excluir"
+            android:text="✖ Rejeitar"
             android:textSize="12sp"
             android:backgroundTint="#C62828" />
 

@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -50,6 +50,8 @@ public class ParticipanteFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ParticipanteAdapter();
         adapter.setListener(this::mostrarDialogIngresso);
+        adapter.setOnEditarListener(this::mostrarDialogEdicao);
+        adapter.setOnDeletarListener(this::confirmarDelecao);
         rv.setAdapter(adapter);
 
         v.findViewById(R.id.btn_cadastrar_p).setOnClickListener(x -> cadastrarParticipante());
@@ -63,26 +65,21 @@ public class ParticipanteFragment extends Fragment {
         String nome  = etNome.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         if (nome.isEmpty() || email.isEmpty()) {
-            Toast.makeText(getContext(), "Nome e e-mail são obrigatórios", Toast.LENGTH_SHORT).show();
-            return;
+            toast("Nome e e-mail são obrigatórios"); return;
         }
         Participante p = new Participante();
-        p.setNome(nome);
-        p.setEmail(email);
-        p.setTelefone(etTelefone.getText().toString().trim());
+        p.setNome(nome); p.setEmail(email); p.setTelefone(etTelefone.getText().toString().trim());
 
         ApiClient.get().criarParticipante(p).enqueue(new Callback<Participante>() {
             @Override
             public void onResponse(@NonNull Call<Participante> call, @NonNull Response<Participante> r) {
                 if (r.isSuccessful()) {
-                    requireActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(), "Participante cadastrado!", Toast.LENGTH_SHORT).show();
+                    runUI(() -> {
+                        toast("Participante cadastrado com sucesso!");
                         etNome.setText(""); etEmail.setText(""); etTelefone.setText("");
                         carregarParticipantes();
                     });
-                } else {
-                    showError("Erro " + r.code());
-                }
+                } else showError("Erro ao cadastrar participante (" + r.code() + ")");
             }
             @Override public void onFailure(@NonNull Call<Participante> c, @NonNull Throwable t) {
                 showError("Falha: " + t.getMessage());
@@ -91,26 +88,21 @@ public class ParticipanteFragment extends Fragment {
     }
 
     private void mostrarDialogIngresso(Participante participante) {
-        if (eventos.isEmpty()) {
-            Toast.makeText(getContext(), "Nenhum evento disponível", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (eventos.isEmpty()) { toast("Nenhum evento disponível. Crie um evento primeiro."); return; }
+
         ArrayAdapter<Evento> spinnerAdapter = new ArrayAdapter<>(
                 requireContext(), android.R.layout.simple_spinner_item, eventos);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         Spinner spinner = new Spinner(requireContext());
         spinner.setAdapter(spinnerAdapter);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Gerar ingresso para " + participante.getNome())
+                .setTitle("🎫 Gerar ingresso para " + participante.getNome())
                 .setMessage("Selecione o evento:")
                 .setView(spinner)
                 .setPositiveButton("Gerar", (dialog, which) -> {
-                    Evento eventoSelecionado = (Evento) spinner.getSelectedItem();
-                    if (eventoSelecionado != null) {
-                        gerarIngresso(participante, eventoSelecionado);
-                    }
+                    Evento ev = (Evento) spinner.getSelectedItem();
+                    if (ev != null) gerarIngresso(participante, ev);
                 })
                 .setNegativeButton("Cancelar", null)
                 .show();
@@ -123,28 +115,94 @@ public class ParticipanteFragment extends Fragment {
             public void onResponse(@NonNull Call<Ingresso> call, @NonNull Response<Ingresso> r) {
                 if (r.isSuccessful() && r.body() != null) {
                     Ingresso ingresso = r.body();
-                    requireActivity().runOnUiThread(() -> {
-                        Intent intent = new Intent(requireContext(), QrCodeActivity.class);
-                        intent.putExtra("token", ingresso.getToken());
-                        intent.putExtra("nomeParticipante", participante.getNome());
-                        startActivity(intent);
-                    });
+                    runUI(() -> new AlertDialog.Builder(requireContext())
+                            .setTitle("✅ Ingresso Gerado!")
+                            .setMessage("QR Code gerado com sucesso para " + participante.getNome()
+                                    + " no evento \"" + evento.getNome() + "\".\n\n"
+                                    + "O participante já pode acessar seu QR Code pelo app.")
+                            .setPositiveButton("Ver QR Code", (d, w) -> {
+                                Intent intent = new Intent(requireContext(), QrCodeActivity.class);
+                                intent.putExtra("token", ingresso.getToken());
+                                intent.putExtra("nomeParticipante", participante.getNome());
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Fechar", null)
+                            .show());
                 } else {
-                    showError("Erro ao gerar ingresso");
+                    showError("❌ Erro ao gerar ingresso. Verifique se já existe um ingresso para este participante neste evento.");
                 }
             }
             @Override public void onFailure(@NonNull Call<Ingresso> c, @NonNull Throwable t) {
-                showError("Falha: " + t.getMessage());
+                runUI(() -> new AlertDialog.Builder(requireContext())
+                        .setTitle("❌ Erro ao Gerar Ingresso")
+                        .setMessage("Falha de conexão com o servidor.\n" + t.getMessage())
+                        .setPositiveButton("OK", null)
+                        .show());
             }
         });
+    }
+
+    private void mostrarDialogEdicao(Participante p) {
+        LinearLayout layout = new LinearLayout(requireContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(48, 24, 48, 0);
+
+        EditText etN = new EditText(requireContext()); etN.setHint("Nome *"); etN.setText(p.getNome());
+        EditText etE = new EditText(requireContext()); etE.setHint("E-mail *"); etE.setText(p.getEmail());
+        etE.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        EditText etT = new EditText(requireContext()); etT.setHint("Telefone"); etT.setText(p.getTelefone());
+        etT.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
+
+        layout.addView(etN); layout.addView(etE); layout.addView(etT);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("✏ Editar Participante")
+                .setView(layout)
+                .setPositiveButton("Salvar", (d, w) -> {
+                    String nome  = etN.getText().toString().trim();
+                    String email = etE.getText().toString().trim();
+                    if (nome.isEmpty() || email.isEmpty()) { toast("Nome e e-mail são obrigatórios"); return; }
+                    Participante atualizado = new Participante();
+                    atualizado.setNome(nome); atualizado.setEmail(email); atualizado.setTelefone(etT.getText().toString().trim());
+                    ApiClient.get().atualizarParticipante(p.getId(), atualizado).enqueue(new Callback<Participante>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Participante> call, @NonNull Response<Participante> r) {
+                            if (r.isSuccessful()) runUI(() -> { toast("Participante atualizado!"); carregarParticipantes(); });
+                            else showError("Erro ao atualizar participante");
+                        }
+                        @Override public void onFailure(@NonNull Call<Participante> c, @NonNull Throwable t) {
+                            showError("Falha: " + t.getMessage());
+                        }
+                    });
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    private void confirmarDelecao(Participante p) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("🗑 Excluir Participante")
+                .setMessage("Deseja excluir \"" + p.getNome() + "\"?\nTodos os ingressos associados também serão excluídos.")
+                .setPositiveButton("Excluir", (d, w) ->
+                        ApiClient.get().deletarParticipante(p.getId()).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> r) {
+                                if (r.isSuccessful()) runUI(() -> { toast("Participante excluído!"); carregarParticipantes(); });
+                                else showError("Erro ao excluir participante");
+                            }
+                            @Override public void onFailure(@NonNull Call<Void> c, @NonNull Throwable t) {
+                                showError("Falha: " + t.getMessage());
+                            }
+                        }))
+                .setNegativeButton("Cancelar", null)
+                .show();
     }
 
     private void carregarParticipantes() {
         ApiClient.get().listarParticipantes().enqueue(new Callback<List<Participante>>() {
             @Override
             public void onResponse(@NonNull Call<List<Participante>> call, @NonNull Response<List<Participante>> r) {
-                if (r.isSuccessful() && r.body() != null)
-                    requireActivity().runOnUiThread(() -> adapter.setItems(r.body()));
+                if (r.isSuccessful() && r.body() != null) runUI(() -> adapter.setItems(r.body()));
             }
             @Override public void onFailure(@NonNull Call<List<Participante>> c, @NonNull Throwable t) {}
         });
@@ -160,8 +218,7 @@ public class ParticipanteFragment extends Fragment {
         });
     }
 
-    private void showError(String msg) {
-        requireActivity().runOnUiThread(() ->
-                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show());
-    }
+    private void toast(String msg) { Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show(); }
+    private void showError(String msg) { runUI(() -> Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show()); }
+    private void runUI(Runnable r) { if (getActivity() != null) requireActivity().runOnUiThread(r); }
 }

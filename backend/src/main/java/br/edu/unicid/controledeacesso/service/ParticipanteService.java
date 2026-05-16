@@ -33,4 +33,17 @@ public class ParticipanteService {
         return participanteRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante nao encontrado para o e-mail: " + email));
     }
+
+    public Participante atualizar(Long id, Participante dados) {
+        Participante p = buscar(id);
+        p.setNome(dados.getNome());
+        p.setEmail(dados.getEmail());
+        if (dados.getTelefone() != null) p.setTelefone(dados.getTelefone());
+        return participanteRepository.save(p);
+    }
+
+    public void deletar(Long id) {
+        buscar(id);
+        participanteRepository.deleteById(id);
+    }
 }

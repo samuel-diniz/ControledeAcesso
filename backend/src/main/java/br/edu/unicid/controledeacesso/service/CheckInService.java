@@ -53,7 +53,7 @@ public class CheckInService {
                         ingresso.getParticipante(), ingresso.getEvento(), tipo);
             }
             // Participante já entrou e saiu — ingresso encerrado, reentrada não permitida
-            if ("SAIU".equals(status) || "USADO".equals(status)) {
+            if ("SAIU".equals(status)) {
                 salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
                 return CheckInResponse.of("JA_USADO", "Ingresso encerrado — participante ja entrou e saiu. Reentrada nao permitida.",
                         ingresso.getParticipante(), ingresso.getEvento(), tipo);
@@ -82,7 +82,7 @@ public class CheckInService {
                 return CheckInResponse.of("NAO_ENTROU", "Participante nao registrou entrada",
                         ingresso.getParticipante(), ingresso.getEvento(), tipo);
             }
-            if ("SAIU".equals(status) || "USADO".equals(status)) {
+            if ("SAIU".equals(status)) {
                 salvarLeitura(ingresso, tokenStr, "JA_USADO", dispositivo, tipo);
                 return CheckInResponse.of("JA_USADO", "Saida ja registrada anteriormente",
                         ingresso.getParticipante(), ingresso.getEvento(), tipo);

@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import br.edu.unicid.controledeacesso.R;
 import br.edu.unicid.controledeacesso.adapter.SolicitacaoAdminAdapter;
 import br.edu.unicid.controledeacesso.api.ApiClient;
+import br.edu.unicid.controledeacesso.model.Ingresso;
 import br.edu.unicid.controledeacesso.model.Solicitacao;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,9 +102,9 @@ public class SolicitacoesFragment extends Fragment {
     }
 
     private void aprovar(Solicitacao s) {
-        ApiClient.get().aprovarSolicitacao(s.getId()).enqueue(new Callback<Solicitacao>() {
+        ApiClient.get().aprovarSolicitacao(s.getId()).enqueue(new Callback<Ingresso>() {
             @Override
-            public void onResponse(@NonNull Call<Solicitacao> call, @NonNull Response<Solicitacao> r) {
+            public void onResponse(@NonNull Call<Ingresso> call, @NonNull Response<Ingresso> r) {
                 if (r.isSuccessful()) {
                     runUI(() -> {
                         toast("✅ Solicitação aprovada! Ingresso gerado.");
@@ -113,16 +114,16 @@ public class SolicitacoesFragment extends Fragment {
                     showError("Erro ao aprovar solicitação (" + r.code() + ")");
                 }
             }
-            @Override public void onFailure(@NonNull Call<Solicitacao> c, @NonNull Throwable t) {
+            @Override public void onFailure(@NonNull Call<Ingresso> c, @NonNull Throwable t) {
                 showError("Falha: " + t.getMessage());
             }
         });
     }
 
     private void rejeitar(Solicitacao s) {
-        ApiClient.get().rejeitarSolicitacao(s.getId()).enqueue(new Callback<Solicitacao>() {
+        ApiClient.get().rejeitarSolicitacao(s.getId()).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Solicitacao> call, @NonNull Response<Solicitacao> r) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> r) {
                 if (r.isSuccessful()) {
                     runUI(() -> {
                         toast("Solicitação rejeitada.");
@@ -132,7 +133,7 @@ public class SolicitacoesFragment extends Fragment {
                     showError("Erro ao rejeitar solicitação (" + r.code() + ")");
                 }
             }
-            @Override public void onFailure(@NonNull Call<Solicitacao> c, @NonNull Throwable t) {
+            @Override public void onFailure(@NonNull Call<Void> c, @NonNull Throwable t) {
                 showError("Falha: " + t.getMessage());
             }
         });

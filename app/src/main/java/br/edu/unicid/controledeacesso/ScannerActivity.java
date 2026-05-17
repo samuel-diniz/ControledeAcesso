@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import java.util.concurrent.atomic.AtomicBoolean;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -31,7 +32,7 @@ public class ScannerActivity extends AppCompatActivity {
     private TextView tvResultado, tvMensagem, tvParticipante;
     private View cardResultado;
     private RadioGroup rgModo;
-    private boolean escaneando = true;
+    private final AtomicBoolean escaneando = new AtomicBoolean(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,7 @@ public class ScannerActivity extends AppCompatActivity {
         scannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
-                if (!escaneando) return;
-                escaneando = false;
+                if (!escaneando.compareAndSet(true, false)) return;
                 validarToken(result.getText());
             }
         });
@@ -119,7 +119,7 @@ public class ScannerActivity extends AppCompatActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 cardResultado.setVisibility(View.GONE);
-                escaneando = true;
+                escaneando.set(true);
             }, 3000);
         });
     }
@@ -133,7 +133,7 @@ public class ScannerActivity extends AppCompatActivity {
             cardResultado.setBackgroundColor(0xFFC62828);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 cardResultado.setVisibility(View.GONE);
-                escaneando = true;
+                escaneando.set(true);
             }, 3000);
         });
     }

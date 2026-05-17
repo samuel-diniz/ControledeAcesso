@@ -25,6 +25,7 @@ public class AdminActivity extends AppCompatActivity {
                 case 1: tab.setText("Participantes");  break;
                 case 2: tab.setText("Dashboard");      break;
                 case 3: tab.setText("Solicitações");   break;
+                case 4: tab.setText("Relatório");      break;
             }
         }).attach();
     }

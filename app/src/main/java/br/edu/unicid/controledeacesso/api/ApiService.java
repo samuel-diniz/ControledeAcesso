@@ -7,6 +7,7 @@ import br.edu.unicid.controledeacesso.model.Ingresso;
 import br.edu.unicid.controledeacesso.model.IngressoRequest;
 import br.edu.unicid.controledeacesso.model.Leitura;
 import br.edu.unicid.controledeacesso.model.Participante;
+import br.edu.unicid.controledeacesso.model.RelatorioEvento;
 import br.edu.unicid.controledeacesso.model.Solicitacao;
 import br.edu.unicid.controledeacesso.model.SolicitacaoRequest;
 import retrofit2.Call;
@@ -76,8 +77,12 @@ public interface ApiService {
     Call<List<Solicitacao>> listarSolicitacoesPorParticipante(@Path("participanteId") long participanteId);
 
     @PUT("api/solicitacoes/{id}/aprovar")
-    Call<Solicitacao> aprovarSolicitacao(@Path("id") long id);
+    Call<Ingresso> aprovarSolicitacao(@Path("id") long id);
 
     @PUT("api/solicitacoes/{id}/rejeitar")
-    Call<Solicitacao> rejeitarSolicitacao(@Path("id") long id);
+    Call<Void> rejeitarSolicitacao(@Path("id") long id);
+
+    // ── Relatório de Presença ──────────────────────────────────────────────────
+    @GET("api/relatorio/evento/{eventoId}")
+    Call<RelatorioEvento> getRelatorioEvento(@Path("eventoId") long eventoId);
 }

@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roteiro de Apresentação — Controle de Acesso QR Code</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f6fb;
+      color: #1a1a2e;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ===== CAPA ===== */
+    .capa {
+      background: linear-gradient(135deg, #1565C0 0%, #0D47A1 50%, #1A237E 100%);
+      color: white;
+      padding: 60px 60px 50px;
+      text-align: center;
+      page-break-after: always;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .capa .badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 6px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .capa .icon-qr {
+      font-size: 72px;
+      margin-bottom: 24px;
+    }
+    .capa h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .capa h1 span { color: #90CAF9; }
+    .capa .subtitulo {
+      font-size: 16px;
+      opacity: 0.85;
+      margin-bottom: 48px;
+      font-weight: 300;
+      max-width: 600px;
+    }
+    .capa .linha {
+      width: 60px;
+      height: 3px;
+      background: #90CAF9;
+      margin: 0 auto 48px;
+    }
+    .capa .info-grid {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .capa .info-item {
+      text-align: center;
+    }
+    .capa .info-item .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+    .capa .info-item .value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .capa .integrantes {
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px 40px;
+      max-width: 700px;
+      width: 100%;
+    }
+    .capa .integrantes h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+    .capa .integrantes .nomes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 32px;
+      text-align: left;
+    }
+    .capa .integrantes .nomes span {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    .capa .integrantes .nomes span::before {
+      content: "◆ ";
+      color: #90CAF9;
+      font-size: 8px;
+    }
+
+    /* ===== ESTRUTURA GERAL ===== */
+    .pagina {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      page-break-inside: avoid;
+    }
+    .pagina + .pagina {
+      border-top: 3px solid #e8ecf5;
+    }
+
+    @media print {
+      body { background: white; }
+      .pagina { page-break-inside: avoid; }
+      .secao { page-break-inside: avoid; }
+    }
+
+    /* ===== CABEÇALHO DE SEÇÃO ===== */
+    .sec-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e8ecf5;
+    }
+    .sec-numero {
+      min-width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #1565C0, #1A237E);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .sec-header-texto h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0D47A1;
+      margin-bottom: 4px;
+    }
+    .sec-header-texto .meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-tempo { background: #E3F2FD; color: #1565C0; }
+    .tag-pessoa { background: #EDE7F6; color: #4527A0; }
+    .tag-slide  { background: #E8F5E9; color: #2E7D32; }
+
+    /* ===== ROTEIRO DE FALA ===== */
+    .fala-box {
+      background: white;
+      border-left: 4px solid #1565C0;
+      border-radius: 0 12px 12px 0;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .fala-box .fala-titulo {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #1565C0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fala-box p {
+      color: #37474f;
+      line-height: 1.75;
+      font-size: 13px;
+    }
+    .fala-box p + p { margin-top: 10px; }
+
+    /* ===== DICA ===== */
+    .dica {
+      background: #FFF8E1;
+      border: 1px solid #FFD54F;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #6D4C41;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .dica-icone { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ===== PONTOS-CHAVE ===== */
+    .pontos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .ponto {
+      background: white;
+      border: 1px solid #e8ecf5;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .ponto-icone {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: #E3F2FD;
+    }
+    .ponto-texto strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 2px;
+    }
+    .ponto-texto span {
+      font-size: 11px;
+      color: #607d8b;
+    }
+
+    /* ===== TABELA DE DISTRIBUIÇÃO ===== */
+    .tabela-wrap {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead tr {
+      background: linear-gradient(135deg, #1565C0, #1A237E);
+      color: white;
+    }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    tbody tr {
+      border-bottom: 1px solid #f0f4f8;
+      transition: background 0.2s;
+    }
+    tbody tr:nth-child(even) { background: #fafbfd; }
+    tbody td {
+      padding: 11px 16px;
+      font-size: 12px;
+      color: #37474f;
+    }
+    tbody td:first-child {
+      font-weight: 700;
+      color: #1565C0;
+    }
+    .dur-badge {
+      background: #E3F2FD;
+      color: #1565C0;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+
+    /* ===== BLOCOS DE DESTAQUE ===== */
+    .destaque-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .destaque-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 3px solid #1565C0;
+    }
+    .destaque-card .d-icone { font-size: 28px; margin-bottom: 8px; }
+    .destaque-card .d-titulo {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0D47A1;
+      margin-bottom: 4px;
+    }
+    .destaque-card .d-texto { font-size: 11px; color: #607d8b; }
+
+    /* ===== TECH STACK ===== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tech-card {
+      background: white;
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .tech-card .t-icone { font-size: 26px; margin-bottom: 6px; }
+    .tech-card .t-nome {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 2px;
+    }
+    .tech-card .t-desc { font-size: 10px; color: #90a4ae; }
+
+    /* ===== FLUXO ===== */
+    .fluxo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .fluxo-step {
+      background: #E3F2FD;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1565C0;
+      text-align: center;
+    }
+    .fluxo-arrow {
+      color: #90CAF9;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* ===== DEMO CHECKLIST ===== */
+    .checklist {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+    .checklist h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0D47A1;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e8ecf5;
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid #f5f7fa;
+      font-size: 12px;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #B0BEC5;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ===== DESAFIOS ===== */
+    .desafio-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: white;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      border-left: 3px solid #EF5350;
+    }
+    .desafio-item.solucao { border-left-color: #66BB6A; }
+    .desafio-num {
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFEBEE;
+      color: #C62828;
+      font-weight: 800;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .desafio-item.solucao .desafio-num {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+    .desafio-texto strong {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a2e;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .desafio-texto span { font-size: 11px; color: #607d8b; }
+
+    /* ===== RODAPÉ DE PÁGINA ===== */
+    .rodape {
+      text-align: center;
+      padding: 20px;
+      font-size: 10px;
+      color: #b0bec5;
+      border-top: 1px solid #e8ecf5;
+    }
+
+    /* ===== DIVISOR ===== */
+    .divisor {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e8ecf5, transparent);
+      margin: 24px 0;
+    }
+
+    /* ===== PRINT MEDIA ===== */
+    @media print {
+      .capa { page-break-after: always; min-height: auto; padding: 40px; }
+      .pagina { padding: 24px 36px; }
+      .sec-header { page-break-inside: avoid; }
+      .fala-box { page-break-inside: avoid; }
+      body { font-size: 12px; }
+    }
+
+    /* ===== LINHA DO TEMPO ===== */
+    .timeline {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .tl-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+    }
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #1565C0;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px #1565C0;
+      flex-shrink: 0;
+    }
+    .tl-line {
+      width: 2px;
+      flex: 1;
+      background: #CFD8DC;
+      min-height: 20px;
+    }
+    .tl-tempo {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1565C0;
+      margin-top: -2px;
+      text-align: right;
+    }
+    .tl-conteudo {
+      background: white;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 4px;
+      flex: 1;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .tl-conteudo strong {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .tl-conteudo span {
+      display: block;
+      font-size: 11px;
+      color: #78909C;
+    }
+
+    /* ===== NOTA ===== */
+    .nota {
+      background: #E8F5E9;
+      border: 1px solid #A5D6A7;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #2E7D32;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    h3.subtitulo-secao {
+      font-size: 13px;
+      font-weight: 700;
+      color: #455A64;
+      margin: 20px 0 10px;
+      padding-left: 12px;
+      border-left: 3px solid #90CAF9;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ CAPA ═══════════════════════════════ -->
+<div class="capa">
+  <div class="badge">📋 Roteiro de Apresentação</div>
+  <div class="icon-qr">📱</div>
+  <h1>Sistema de Controle de Acesso com <span>QR Code</span></h1>
+  <p class="subtitulo">Solução completa para gerenciamento de eventos com validação de ingressos em tempo real via tecnologia QR Code</p>
+  <div class="linha"></div>
+  <div class="info-grid">
+    <div class="info-item">
+      <div class="label">Duração Total</div>
+      <div class="value">⏱ 30 minutos</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Integrantes</div>
+      <div class="value">👥 10 pessoas</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Instituição</div>
+      <div class="value">🎓 UNICID</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Tecnologias</div>
+      <div class="value">☕ Java · 🤖 Android · 🐘 PostgreSQL</div>
+    </div>
+  </div>
+  <div class="integrantes">
+    <h3>🧑‍💻 Integrantes do Grupo</h3>
+    <div class="nomes">
+      <span>Integrante 1</span>
+      <span>Integrante 6</span>
+      <span>Integrante 2</span>
+      <span>Integrante 7</span>
+      <span>Integrante 3</span>
+      <span>Integrante 8</span>
+      <span>Integrante 4</span>
+      <span>Integrante 9</span>
+      <span>Integrante 5</span>
+      <span>Integrante 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ VISÃO GERAL / DISTRIBUIÇÃO ═══════════════════════ -->
+<div class="pagina">
+
+  <div class="sec-header">
+    <div class="sec-numero">📋</div>
+    <div class="sec-header-texto">
+      <h2>Visão Geral da Apresentação</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 30 min no total</span>
+        <span class="meta-tag tag-pessoa">👥 10 integrantes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Seção</th>
+          <th>Responsável</th>
+          <th>Duração</th>
+          <th>Conteúdo Principal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Abertura e Apresentação do Grupo</td>
+          <td>Integrante 1</td>
+          <td><span class="dur-badge">2 min</span></td>
+          <td>Boas-vindas, nome do projeto, integrantes</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Problema e Contexto</td>
+          <td>Integrante 2</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Dor do mercado, cenário atual, justificativa</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Proposta de Solução</td>
+          <td>Integrante 3</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Objetivo, público-alvo, diferenciais</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Arquitetura do Sistema</td>
+          <td>Integrante 4</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Diagrama de camadas, comunicação entre módulos</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Banco de Dados</td>
+          <td>Integrante 5</td>
+          <td><span class="dur-badge">2 min</span></td>
+          <td>Modelo de dados, 5 tabelas, regras de negócio</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Backend — Spring Boot</td>
+          <td>Integrante 6</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>API REST, endpoints, lógica de check-in</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>App Android</td>
+          <td>Integrante 7</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Telas, navegação, scanner de câmera</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Demonstração ao Vivo</td>
+          <td>Integrantes 8 e 9</td>
+          <td><span class="dur-badge">5 min</span></td>
+          <td>Fluxo completo em tempo real</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Desafios e Aprendizados</td>
+          <td>Integrante 10</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Problemas enfrentados e como foram resolvidos</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Conclusão e Perguntas</td>
+          <td>Todos / Integrante 1</td>
+          <td><span class="dur-badge">3 min</span></td>
+          <td>Fechamento, próximos passos, Q&A</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dica">
+    <span class="dica-icone">💡</span>
+    <div><strong>Dica geral:</strong> Cada integrante deve treinar a sua fala pelo menos uma vez antes da apresentação. Combinado o ritmo, 30 minutos é suficiente para cobrir todos os tópicos sem correria. Mantenham o tom de conversa — expliquem como se estivessem apresentando para alguém que nunca viu o sistema.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 1 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">1</div>
+    <div class="sec-header-texto">
+      <h2>Abertura e Apresentação do Grupo</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 2 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"Bom dia / Boa tarde a todos! Sejam bem-vindos à apresentação do nosso projeto de conclusão da disciplina."</p>
+    <p>"Meu nome é [nome] e, junto comigo, estão mais 9 integrantes deste grupo: [citar os nomes rapidamente]."</p>
+    <p>"O projeto que vamos apresentar hoje se chama <strong>Sistema de Controle de Acesso com QR Code</strong>. Em resumo, desenvolvemos uma solução completa para o gerenciamento de entrada em eventos — desde a geração do ingresso digital até a validação em tempo real na porta, tudo usando tecnologia mobile e um servidor backend robusto."</p>
+    <p>"Nos próximos 30 minutos, vamos apresentar o problema que nos motivou, a solução que desenvolvemos, a arquitetura técnica do sistema, uma demonstração ao vivo e os aprendizados que tivemos ao longo do desenvolvimento."</p>
+    <p>"Sem mais delongas, passo a palavra para o [Integrante 2], que vai contextualizar o problema que nos motivou."</p>
+  </div>
+
+  <div class="dica">
+    <span class="dica-icone">💡</span>
+    <div><strong>Dica:</strong> Fale com confiança e calma. Um sorriso e contato visual com a banca cria uma ótima primeira impressão. Se possível, mostre brevemente o app no celular ou no projetor já na abertura para despertar curiosidade.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 2 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">2</div>
+    <div class="sec-header-texto">
+      <h2>Problema e Contexto</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"Quem aqui já foi a algum evento — uma formatura, uma festa, um show — e ficou numa fila enorme esperando alguém verificar seu ingresso de papel? Ou pior: viu um ingresso ser usado duas vezes por conta de uma cópia?"</p>
+    <p>"Esse é o problema central que identificamos: <strong>o controle de acesso em eventos ainda é, em muitos casos, manual, lento, sujeito a erros e vulnerável a fraudes.</strong>"</p>
+    <p>"Pense no cenário mais comum: o organizador imprime uma lista de nomes, alguém fica na porta riscando nome por nome com caneta. Isso gera filas, causa erros de digitação e não oferece nenhum dado em tempo real sobre quantas pessoas entraram."</p>
+    <p>"Além disso, ingressos em papel ou mesmo PDFs enviados por WhatsApp são facilmente copiados e repassados, o que representa uma perda direta para o organizador e um problema de segurança para o evento."</p>
+    <p>"Identificamos, portanto, três dores principais:"</p>
+  </div>
+
+  <div class="pontos">
+    <div class="ponto">
+      <div class="ponto-icone">🐌</div>
+      <div class="ponto-texto">
+        <strong>Lentidão na entrada</strong>
+        <span>Filas longas por checagem manual nome a nome</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📄</div>
+      <div class="ponto-texto">
+        <strong>Fraude com ingressos</strong>
+        <span>PDFs e fotos de ingressos facilmente copiados</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📊</div>
+      <div class="ponto-texto">
+        <strong>Falta de dados em tempo real</strong>
+        <span>Organizador não sabe quantas pessoas entraram</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">🚫</div>
+      <div class="ponto-texto">
+        <strong>Sem controle de capacidade</strong>
+        <span>Difícil evitar superlotação de forma automatizada</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Transição</div>
+    <p>"Esses quatro problemas nos motivaram a pensar: <em>como usar tecnologia acessível para resolver isso de forma simples e eficiente?</em> O [Integrante 3] vai apresentar a nossa proposta de solução."</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 3 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">3</div>
+    <div class="sec-header-texto">
+      <h2>Proposta de Solução</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 3</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"Nossa proposta é um <strong>sistema digital de controle de acesso baseado em QR Code</strong> — funcionando 100% pelo celular, sem necessidade de nenhum hardware especial além de um smartphone."</p>
+    <p>"O fluxo começa pelo próprio participante: ele abre o app, digita o e-mail e se cadastra sozinho. Depois, escolhe o evento desejado e faz uma <strong>solicitação de vaga</strong>. O administrador recebe essa solicitação no painel e decide aprovar ou rejeitar. Se aprovado, o sistema gera automaticamente um ingresso digital exclusivo — um QR Code único baseado em UUID."</p>
+    <p>"Na hora do evento, o controlador de acesso abre o app na tela de scanner, aponta a câmera para o QR Code do participante e, em menos de um segundo, recebe a resposta: entrada liberada ou negada. O sistema também registra a <strong>saída</strong> — assim o organizador sabe exatamente quem está dentro do evento em cada momento."</p>
+    <p>"O sistema é inteligente: bloqueia tentativas de dupla entrada, controla a capacidade máxima do evento e impede reentrada após a saída. Um participante que saiu não pode mais entrar novamente com o mesmo ingresso."</p>
+  </div>
+
+  <div class="destaque-grid">
+    <div class="destaque-card">
+      <div class="d-icone">🎫</div>
+      <div class="d-titulo">Ingresso Digital</div>
+      <div class="d-texto">QR Code único gerado por UUID — impossível de falsificar ou reutilizar</div>
+    </div>
+    <div class="destaque-card">
+      <div class="d-icone">⚡</div>
+      <div class="d-titulo">Validação Instantânea</div>
+      <div class="d-texto">Resposta em menos de 1 segundo — entrada e saída registradas pelo scanner</div>
+    </div>
+    <div class="destaque-card">
+      <div class="d-icone">📊</div>
+      <div class="d-titulo">Relatório de Presença ao Vivo</div>
+      <div class="d-texto">Barra de capacidade, horários de entrada/saída por participante em tempo real</div>
+    </div>
+  </div>
+
+  <h3 class="subtitulo-secao">Público-alvo</h3>
+  <div class="pontos">
+    <div class="ponto">
+      <div class="ponto-icone">🎓</div>
+      <div class="ponto-texto">
+        <strong>Eventos acadêmicos</strong>
+        <span>Formaturas, semanas de curso, palestras universitárias</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">🎵</div>
+      <div class="ponto-texto">
+        <strong>Eventos culturais</strong>
+        <span>Shows, festivais, feiras, exposições</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">🏢</div>
+      <div class="ponto-texto">
+        <strong>Eventos corporativos</strong>
+        <span>Treinamentos, conferências, meetups</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">🎉</div>
+      <div class="ponto-texto">
+        <strong>Eventos sociais</strong>
+        <span>Festas, comemorações, celebrações com lista de convidados</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 4 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">4</div>
+    <div class="sec-header-texto">
+      <h2>Arquitetura do Sistema</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 4</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"Nosso sistema foi construído seguindo uma arquitetura de <strong>três camadas</strong> bem definidas, uma prática muito utilizada no mercado de desenvolvimento de software."</p>
+    <p>"A primeira camada é o <strong>App Android</strong> — a interface que o usuário segura na mão. Ele foi desenvolvido em Java puro para Android e é responsável por tudo que o usuário vê e interage: criar eventos, escanear QR Codes e visualizar o dashboard."</p>
+    <p>"A segunda camada é o <strong>Backend em Spring Boot</strong> — é o cérebro do sistema. Ele recebe as requisições do app, aplica as regras de negócio, valida os tokens e retorna as respostas. É uma API REST que roda em Java."</p>
+    <p>"A terceira camada é o <strong>banco de dados PostgreSQL</strong> — onde todos os dados são persistidos de forma segura: eventos, participantes, ingressos e o histórico completo de todas as leituras."</p>
+    <p>"A comunicação entre o app e o backend acontece via <strong>HTTP/JSON</strong>, utilizando a biblioteca Retrofit no Android. Toda a lógica crítica — como validar se um ingresso já foi usado — fica no servidor, nunca no app. Isso garante segurança e consistência."</p>
+  </div>
+
+  <h3 class="subtitulo-secao">Fluxo de comunicação</h3>
+  <div class="fluxo">
+    <div class="fluxo-step">📱 App Android<br><small>Retrofit + OkHttp</small></div>
+    <div class="fluxo-arrow">→</div>
+    <div class="fluxo-step">🌐 HTTP/JSON<br><small>REST API</small></div>
+    <div class="fluxo-arrow">→</div>
+    <div class="fluxo-step">☕ Spring Boot<br><small>Regras de negócio</small></div>
+    <div class="fluxo-arrow">→</div>
+    <div class="fluxo-step">🐘 PostgreSQL<br><small>Persistência</small></div>
+  </div>
+
+  <h3 class="subtitulo-secao">Stack Tecnológica Completa</h3>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="t-icone">🤖</div>
+      <div class="t-nome">Android (Java)</div>
+      <div class="t-desc">minSdk 24 / targetSdk 36</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">☕</div>
+      <div class="t-nome">Spring Boot 3.2</div>
+      <div class="t-desc">Java 17 · REST · JPA</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">🐘</div>
+      <div class="t-nome">PostgreSQL 18</div>
+      <div class="t-desc">Banco relacional robusto</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">📡</div>
+      <div class="t-nome">Retrofit 2</div>
+      <div class="t-desc">HTTP client Android</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">📷</div>
+      <div class="t-nome">ZXing</div>
+      <div class="t-desc">Leitura e geração de QR</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">🏗️</div>
+      <div class="t-nome">Hibernate / JPA</div>
+      <div class="t-desc">ORM para persistência</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">🔗</div>
+      <div class="t-nome">GitHub</div>
+      <div class="t-desc">Controle de versão</div>
+    </div>
+    <div class="tech-card">
+      <div class="t-icone">🔧</div>
+      <div class="t-nome">Maven</div>
+      <div class="t-desc">Gerenciador de dependências</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 5 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">5</div>
+    <div class="sec-header-texto">
+      <h2>Banco de Dados</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 2 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 5</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"O banco de dados do nosso sistema é composto por <strong>5 tabelas relacionais</strong> no PostgreSQL, cada uma com uma responsabilidade bem definida."</p>
+    <p>"A tabela central é a de <strong>ingressos</strong> — ela é o coração do sistema. Cada ingresso possui um token UUID gerado aleatoriamente pelo servidor no momento da criação. Esse token é o que vira o QR Code do participante. Ele é único, imprevisível e nunca se repete."</p>
+    <p>"A tabela de <strong>leituras</strong> registra cada tentativa de scan — válida ou inválida, de entrada ou saída. Isso nos dá um histórico completo de auditoria: quem entrou, quem saiu, quando e por qual dispositivo."</p>
+    <p>"Uma regra importante: o status do ingresso segue um ciclo de vida bem definido — começa como <strong>PENDENTE</strong>, muda para <strong>DENTRO</strong> quando o participante entra, e finaliza como <strong>SAIU</strong> quando ele sai. Uma vez em SAIU, o ingresso está encerrado e não permite reentrada."</p>
+    <p>"A tabela de <strong>solicitações</strong> representa o pedido de vaga feito pelo próprio participante — ela guarda o estado PENDENTE, APROVADO ou REJEITADO de cada pedido antes que o ingresso seja gerado."</p>
+  </div>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Tabela</th>
+          <th>Descrição</th>
+          <th>Campos Principais</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>📅 evento</td>
+          <td>Eventos criados pelos organizadores</td>
+          <td>id, nome, local, capacidade, data</td>
+        </tr>
+        <tr>
+          <td>👥 participante</td>
+          <td>Pessoas cadastradas — podem se auto-registrar pelo app</td>
+          <td>id, nome, email</td>
+        </tr>
+        <tr>
+          <td>📝 solicitacao</td>
+          <td>Pedido de vaga de participante para evento</td>
+          <td>id, status (PENDENTE/APROVADO/REJEITADO), participante_id, evento_id, criada_em</td>
+        </tr>
+        <tr>
+          <td>🎫 ingresso</td>
+          <td>Ingresso gerado após aprovação — contém o QR Code</td>
+          <td>id, token (UUID único), status (PENDENTE/DENTRO/SAIU), evento_id, participante_id</td>
+        </tr>
+        <tr>
+          <td>📋 leitura</td>
+          <td>Histórico de todas as tentativas de scan</td>
+          <td>id, resultado (VALIDO/INVALIDO/JA_USADO/LOTADO/NAO_ENTROU), tipo (ENTRADA/SAIDA), dispositivo, lido_em</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <span>✅</span>
+    <div><strong>Ponto de destaque:</strong> O token UUID é gerado exclusivamente pelo servidor no momento da aprovação da solicitação — nunca pelo app. Isso significa que não existe forma de um usuário criar ou falsificar um token válido. O ciclo completo é: solicitação → aprovação admin → ingresso com UUID → QR Code → entrada → saída.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 6 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">6</div>
+    <div class="sec-header-texto">
+      <h2>Backend — API Spring Boot</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 6</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"O backend é uma <strong>API REST</strong> desenvolvida com Spring Boot 3.2, Java 17. Ele roda num servidor local e expõe todos os endpoints que o app Android consome via HTTP/JSON usando a biblioteca Retrofit."</p>
+    <p>"A parte mais importante é o serviço de <strong>check-in</strong>. Quando o scanner lê um QR Code, o app envia o token e o tipo de operação — ENTRADA ou SAÍDA — para o endpoint <em>/api/checkin</em>. O backend executa uma sequência de verificações: o token é válido? O ingresso está no estado correto para essa operação? O evento ainda tem capacidade? Dependendo das respostas, retorna VÁLIDO, JÁ_USADO, LOTADO, NAO_ENTROU ou INVÁLIDO. Toda tentativa é registrada na tabela de leituras."</p>
+    <p>"Outro serviço importante é o de <strong>solicitações</strong>: quando um participante pede uma vaga, a solicitação é salva com status PENDENTE. O admin aprova ou rejeita. Na aprovação, o sistema gera automaticamente o ingresso com um token UUID aleatório e único."</p>
+    <p>"O backend segue o padrão em camadas: <strong>Controller → Service → Repository</strong>. Os controllers recebem as requisições HTTP, os services contêm a lógica de negócio, e os repositories fazem a comunicação com o banco via JPA/Hibernate."</p>
+  </div>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Método</th>
+          <th>Endpoint</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>POST</td><td>/api/eventos</td><td>Criar novo evento</td></tr>
+        <tr><td>GET</td><td>/api/eventos</td><td>Listar todos os eventos</td></tr>
+        <tr><td>PUT / DELETE</td><td>/api/eventos/{id}</td><td>Editar / Excluir evento (com cascade)</td></tr>
+        <tr><td>POST</td><td>/api/participantes</td><td>Cadastrar participante (auto-registro)</td></tr>
+        <tr><td>GET</td><td>/api/participantes/email/{email}</td><td>Buscar participante por e-mail (login)</td></tr>
+        <tr><td>POST</td><td>/api/solicitacoes</td><td>Participante solicita vaga em evento</td></tr>
+        <tr><td>GET</td><td>/api/solicitacoes/pendentes</td><td>Admin lista solicitações pendentes</td></tr>
+        <tr><td>PUT</td><td>/api/solicitacoes/{id}/aprovar</td><td>⭐ Admin aprova → gera ingresso UUID</td></tr>
+        <tr><td>PUT</td><td>/api/solicitacoes/{id}/rejeitar</td><td>Admin rejeita solicitação</td></tr>
+        <tr><td>POST</td><td>/api/checkin</td><td>⭐ Validar QR Code (ENTRADA ou SAIDA)</td></tr>
+        <tr><td>GET</td><td>/api/leituras/evento/{id}</td><td>Histórico de leituras (dashboard)</td></tr>
+        <tr><td>GET</td><td>/api/relatorio/evento/{id}</td><td>⭐ Relatório de presença ao vivo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dica">
+    <span class="dica-icone">💡</span>
+    <div><strong>Dica de fala:</strong> Se a banca perguntar sobre segurança, mencione que o token UUID v4 tem 2¹²² combinações possíveis — é estatisticamente impossível adivinhar um token válido por força bruta. E toda tentativa — válida ou inválida — fica registrada permanentemente no banco com dispositivo e horário.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 7 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">7</div>
+    <div class="sec-header-texto">
+      <h2>Aplicativo Android</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 7</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"O app Android é o ponto de contato do sistema com o usuário final. Ele foi desenvolvido em <strong>Java puro para Android</strong>, sem frameworks externos desnecessários, o que o torna leve e compatível com a grande maioria dos aparelhos — qualquer celular com Android 7.0 ou superior já roda o app."</p>
+    <p>"O app serve dois perfis de usuário diferentes. O <strong>participante</strong> acessa pelo seu próprio celular: digita o e-mail, se cadastra caso seja novo, escolhe um evento e solicita uma vaga. Quando aprovado, vê o QR Code do ingresso diretamente no app. A tela atualiza automaticamente a cada 10 segundos para refletir aprovações em tempo real."</p>
+    <p>"O <strong>administrador</strong> acessa o Painel Admin — uma tela com <strong>5 abas</strong> bem definidas:"</p>
+  </div>
+
+  <div class="pontos">
+    <div class="ponto">
+      <div class="ponto-icone">📅</div>
+      <div class="ponto-texto">
+        <strong>Aba Eventos</strong>
+        <span>Criar, editar e excluir eventos com nome, local, data e capacidade</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">👥</div>
+      <div class="ponto-texto">
+        <strong>Aba Participantes</strong>
+        <span>Listar, cadastrar, editar e remover participantes do sistema</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📊</div>
+      <div class="ponto-texto">
+        <strong>Aba Dashboard</strong>
+        <span>Seleciona evento e exibe histórico completo de leituras em tempo real</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📝</div>
+      <div class="ponto-texto">
+        <strong>Aba Solicitações</strong>
+        <span>Lista solicitações pendentes — admin aprova ou rejeita com um toque</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📈</div>
+      <div class="ponto-texto">
+        <strong>Aba Relatório ⭐</strong>
+        <span>Barra de capacidade, 4 cards de estatísticas e lista de presença com horários de entrada e saída</span>
+      </div>
+    </div>
+    <div class="ponto">
+      <div class="ponto-icone">📷</div>
+      <div class="ponto-texto">
+        <strong>Tela Scanner</strong>
+        <span>Câmera contínua com ZXing — lê QR Code e exibe cartão colorido de resultado</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Continuação</div>
+    <p>"O scanner usa a biblioteca ZXing para acessar a câmera do celular e ler QR Codes em tempo contínuo. Ao ler um código, o app envia automaticamente para o backend e exibe o resultado: <strong>verde para VÁLIDO, laranja para já usado, azul para lotado e vermelho para inválido.</strong> O scanner aceita também leituras de <em>saída</em> — basta o controlador trocar o modo — e registra o horário exato."</p>
+    <p>"Há ainda um detalhe técnico importante: o endereço do servidor backend é configurável diretamente pelo app, sem precisar recompilar — o usuário toca no botão de configuração na tela inicial e digita o IP atual do servidor. Isso é essencial porque o IP muda quando a rede muda."</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 8 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">8</div>
+    <div class="sec-header-texto">
+      <h2>Demonstração ao Vivo</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 5 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrantes 8 e 9</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <span>📱</span>
+    <div><strong>Setup da demo:</strong> Usar 2 celulares físicos (ambos conectados via Wi-Fi ao mesmo notebook). Celular 1 = Participante. Celular 2 = Admin / Scanner. Backend rodando no notebook. Projetor mostrando ambos os celulares.</div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Integrante 8 — Fluxo do Admin (Celular 2)</div>
+    <p>"Vou mostrar agora o sistema funcionando ao vivo com dois celulares reais. No <strong>Celular 2</strong>, abro o Painel Admin."</p>
+    <p>"Primeiro, na aba <em>Eventos</em>, crio um evento: 'TechDay UNICID 2025', local 'Auditório A', capacidade 50 pessoas. [CRIAR AO VIVO]"</p>
+    <p>"Agora deixo o Celular 2 no Painel Admin — aba <em>Solicitações</em> — e passo a palavra para quem vai usar o Celular 1 como participante."</p>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Integrante 9 — Fluxo do Participante (Celular 1)</div>
+    <p>"No <strong>Celular 1</strong>, acesso o app como participante. Digito meu e-mail — como é a primeira vez, o sistema me pede nome e me cadastra automaticamente."</p>
+    <p>"Já logado, vejo a lista de eventos disponíveis. Seleciono 'TechDay UNICID 2025' e toco em <em>Solicitar Vaga</em>. [SOLICITAR AO VIVO]"</p>
+    <p>"O app confirma: 'Solicitação enviada! Aguardando aprovação do administrador.' A tela atualiza automaticamente a cada 10 segundos."</p>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Integrante 8 — Aprovação (Celular 2)</div>
+    <p>"No Celular 2, na aba <em>Solicitações</em>, vejo que a solicitação do participante chegou como PENDENTE. Toco em <strong>Aprovar</strong>. [APROVAR AO VIVO]"</p>
+    <p>"O sistema confirma: 'Solicitação aprovada! Ingresso gerado.' Isso significa que o backend criou automaticamente um UUID único e gravou o ingresso no banco."</p>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Integrante 9 — QR Code + Entrada (Celular 1)</div>
+    <p>"No Celular 1 — a tela atualizou automaticamente! O ingresso apareceu com o <strong>QR Code</strong> do participante. Esse é o ingresso digital."</p>
+    <p>"Agora vou mostrar a entrada. No Celular 2, abro o Scanner, modo ENTRADA. Aponto a câmera para o QR Code do Celular 1... [ESCANEAR AO VIVO]"</p>
+    <p>"Vejam: cartão <strong>VERDE</strong> — <em>'Entrada registrada com sucesso!'</em> — exibindo nome e evento. O status do ingresso mudou para DENTRO."</p>
+    <p>"Tento escanear de novo... cartão <strong>LARANJA</strong> — <em>'Participante já está dentro do evento.'</em> Dupla entrada bloqueada automaticamente."</p>
+    <p>"Agora mostro a saída: mudo para modo SAIDA, escaneiro... cartão <strong>VERDE</strong> — <em>'Saída registrada com sucesso!'</em>. Ingresso agora está SAIU."</p>
+    <p>"Se eu tentar entrar novamente... cartão <strong>LARANJA</strong> — <em>'Ingresso encerrado — reentrada não permitida.'</em> O sistema protege contra qualquer tentativa de reentrada."</p>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Integrante 8 — Relatório ao Vivo (Celular 2)</div>
+    <p>"Para finalizar a demo, abro a aba <em>Relatório</em> no Painel Admin — essa é a nossa funcionalidade diferencial."</p>
+    <p>"Seleciono o evento 'TechDay UNICID 2025' e vejam: uma <strong>barra de capacidade</strong> visual mostrando a ocupação atual, quatro cards com total de ingressos, quantos estão dentro agora, quantos já saíram e a taxa de presença."</p>
+    <p>"Abaixo, a lista completa de participantes com horário exato de entrada e saída de cada um. Isso é um relatório de presença ao vivo — algo que nenhum sistema manual consegue oferecer."</p>
+  </div>
+
+  <div class="checklist">
+    <h4>✅ Checklist da Demo — confirme antes de apresentar</h4>
+    <div class="check-item"><div class="check-box"></div><span>Backend rodando: <code>.\mvnw.cmd spring-boot:run</code> (pasta backend) — aguardar "Started ControleDeAcessoApplication"</span></div>
+    <div class="check-item"><div class="check-box"></div><span>IP atual do notebook anotado: rodar <code>ipconfig</code> e pegar o IPv4 da rede Wi-Fi</span></div>
+    <div class="check-item"><div class="check-box"></div><span>Celular 1 e Celular 2 conectados na mesma rede Wi-Fi que o notebook</span></div>
+    <div class="check-item"><div class="check-box"></div><span>IP configurado nos dois apps: tela inicial → botão "⚙ Servidor: http://..." → digitar IP correto</span></div>
+    <div class="check-item"><div class="check-box"></div><span>Banco limpo (sem dados de testes anteriores) — ou evento de demo já criado</span></div>
+    <div class="check-item"><div class="check-box"></div><span>Celular 2 com app instalado e painel admin acessível</span></div>
+    <div class="check-item"><div class="check-box"></div><span>Projetor mostrando os dois celulares em paralelo ou um de cada vez</span></div>
+    <div class="check-item"><div class="check-box"></div><span>Testar fluxo completo uma vez antes da apresentação para garantir que tudo funciona</span></div>
+  </div>
+
+  <div class="dica">
+    <span class="dica-icone">⚠️</span>
+    <div><strong>Plano B:</strong> Se o Wi-Fi da faculdade mudar o IP, basta abrir o app → tela inicial → toque em "⚙ Servidor" → digitar o novo IP. Não é necessário recompilar. Se houver problema de rede, tenham um vídeo gravado do fluxo completo como alternativa.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 9 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">9</div>
+    <div class="sec-header-texto">
+      <h2>Desafios e Aprendizados</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 10</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala</div>
+    <p>"Todo projeto de desenvolvimento enfrenta desafios, e com o nosso não foi diferente. Quero compartilhar os principais obstáculos que superamos, porque acredito que eles mostram o aprendizado técnico real do grupo."</p>
+  </div>
+
+  <h3 class="subtitulo-secao">🔴 Desafios Encontrados</h3>
+
+  <div class="desafio-item">
+    <div class="desafio-num">1</div>
+    <div class="desafio-texto">
+      <strong>Incompatibilidade do Lombok com Java 17+</strong>
+      <span>O backend não compilava — dezenas de erros de "método não encontrado". A biblioteca Lombok, que gera getters/setters automaticamente via anotações, se mostrou instável com a versão do Java usada no projeto.</span>
+    </div>
+  </div>
+  <div class="desafio-item">
+    <div class="desafio-num">2</div>
+    <div class="desafio-texto">
+      <strong>Constraints legadas bloqueando operações no banco</strong>
+      <span>O PostgreSQL rejeitava inserções com erro de constraint — o banco tinha restrições antigas de valores válidos que conflitavam com os novos status do sistema (DENTRO, SAIU, NAO_ENTROU).</span>
+    </div>
+  </div>
+  <div class="desafio-item">
+    <div class="desafio-num">3</div>
+    <div class="desafio-texto">
+      <strong>IP dinâmico quebrando a conexão a cada rede</strong>
+      <span>Cada vez que o notebook mudava de rede Wi-Fi, o IP mudava e o app Android parava de se comunicar com o backend — exigindo recompilação do app para atualizar a URL.</span>
+    </div>
+  </div>
+  <div class="desafio-item">
+    <div class="desafio-num">4</div>
+    <div class="desafio-texto">
+      <strong>Exclusão de eventos causando erro de chave estrangeira</strong>
+      <span>Ao tentar excluir um evento, o banco retornava erro de violação de FK — havia ingressos, leituras e solicitações vinculados ao evento que precisavam ser removidos primeiro, na ordem correta.</span>
+    </div>
+  </div>
+  <div class="desafio-item">
+    <div class="desafio-num">5</div>
+    <div class="desafio-texto">
+      <strong>Race condition no scanner de QR Code</strong>
+      <span>O scanner processava o mesmo QR Code múltiplas vezes simultaneamente — threads diferentes liam o código antes que a requisição anterior terminasse, gerando validações duplicadas.</span>
+    </div>
+  </div>
+
+  <h3 class="subtitulo-secao">🟢 Como Resolvemos</h3>
+
+  <div class="desafio-item solucao">
+    <div class="desafio-num">1</div>
+    <div class="desafio-texto">
+      <strong>Reescrita manual sem Lombok</strong>
+      <span>Substituímos todas as anotações Lombok por código Java explícito — getters, setters e construtores escritos manualmente. O projeto ficou mais verboso, mas 100% estável e sem dependências problemáticas.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">2</div>
+    <div class="desafio-texto">
+      <strong>SQL de inicialização automática (data.sql)</strong>
+      <span>Criamos um arquivo <code>data.sql</code> executado automaticamente pelo Spring Boot na inicialização, que remove as constraints legadas com <code>ALTER TABLE DROP CONSTRAINT IF EXISTS</code>. Sem necessidade de acesso manual ao banco.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">3</div>
+    <div class="desafio-texto">
+      <strong>Configuração dinâmica de IP via SharedPreferences</strong>
+      <span>Refatoramos o cliente HTTP para ler o endereço do servidor de uma preferência salva no app. O usuário toca num botão na tela inicial, digita o novo IP e reconecta — sem recompilar.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">4</div>
+    <div class="desafio-texto">
+      <strong>Deleção em cascata com @Transactional</strong>
+      <span>Implementamos no Service a exclusão em ordem correta: leituras → ingressos → solicitações → evento, tudo dentro de uma transação. Se qualquer passo falhar, o banco é revertido automaticamente.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">5</div>
+    <div class="desafio-texto">
+      <strong>AtomicBoolean para controle de concorrência</strong>
+      <span>Substituímos o boolean simples por <code>AtomicBoolean</code> com operação <code>compareAndSet</code> — garante que apenas uma thread processa o scan por vez, eliminando as leituras duplicadas.</span>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Fechamento</div>
+    <p>"Cada um desses desafios nos ensinou algo que vai muito além da teoria: depurar erros de banco de dados, lidar com concorrência em ambientes mobile, entender segurança de rede no Android. Esses são os problemas que todo desenvolvedor encontra no mercado — e resolvê-los aqui nos preparou para isso."</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEÇÃO 10 ═══════════════════════════ -->
+<div class="pagina">
+  <div class="sec-header">
+    <div class="sec-numero">10</div>
+    <div class="sec-header-texto">
+      <h2>Conclusão e Próximos Passos</h2>
+      <div class="meta">
+        <span class="meta-tag tag-tempo">⏱ 3 minutos</span>
+        <span class="meta-tag tag-pessoa">🎤 Integrante 1 (fechamento) + Q&A</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Roteiro de Fala — Conclusão</div>
+    <p>"Para fechar nossa apresentação: desenvolvemos um sistema completo, do banco de dados até o app na tela do celular, que resolve um problema real e recorrente no dia a dia de quem organiza eventos."</p>
+    <p>"O projeto prova que é possível, com tecnologias acessíveis e abertas — Java, Spring Boot, PostgreSQL e Android — construir uma solução que substitui processos manuais por automação digital, aumentando a segurança, a velocidade e a rastreabilidade."</p>
+    <p>"Todo o código está versionado e disponível publicamente no GitHub, seguindo boas práticas de desenvolvimento como separação em camadas, versionamento com Git e documentação do projeto."</p>
+  </div>
+
+  <div class="destaque-grid">
+    <div class="destaque-card">
+      <div class="d-icone">✅</div>
+      <div class="d-titulo">O que entregamos</div>
+      <div class="d-texto">Fluxo completo: auto-cadastro → solicitação → aprovação → QR Code → entrada/saída → relatório ao vivo</div>
+    </div>
+    <div class="destaque-card">
+      <div class="d-icone">📈</div>
+      <div class="d-titulo">Melhorias futuras</div>
+      <div class="d-texto">Login com JWT, envio do QR Code por e-mail, suporte offline no scanner, exportação do relatório em PDF</div>
+    </div>
+    <div class="destaque-card">
+      <div class="d-icone">🎓</div>
+      <div class="d-titulo">O que aprendemos</div>
+      <div class="d-texto">Arquitetura em camadas, API REST, concorrência mobile, transações de banco e trabalho em equipe real</div>
+    </div>
+  </div>
+
+  <div class="fala-box">
+    <div class="fala-titulo">🎤 Agradecimento Final</div>
+    <p>"Agradecemos a atenção de todos. Foi um projeto desafiador, mas extremamente enriquecedor para toda a equipe. Estamos abertos a perguntas — pode ser sobre qualquer parte técnica ou conceitual do projeto."</p>
+  </div>
+
+  <h3 class="subtitulo-secao">💬 Possíveis Perguntas da Banca — Respostas Preparadas</h3>
+
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"Como garantem que o QR Code não pode ser falsificado?"</strong>
+      <span>O token é um UUID v4 gerado aleatoriamente pelo servidor somente após a aprovação da solicitação, com 2¹²² combinações possíveis. Ele não é previsível, não existe antes da aprovação e só pode ser criado por quem tem acesso ao banco.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"Um participante pode entrar mais de uma vez ou reentrar após sair?"</strong>
+      <span>Não. O sistema tem três estados para o ingresso: PENDENTE (aguardando entrada), DENTRO (dentro do evento) e SAIU (encerrado). Tentativa de segunda entrada com status DENTRO ou SAIU é bloqueada com mensagem específica e registrada no histórico.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"O que acontece se o sistema cair durante o evento?"</strong>
+      <span>Esta é uma limitação do MVP atual. Como melhoria futura, planejamos implementar um cache local no app scanner para operar em modo offline por curtos períodos, sincronizando quando a conexão voltar.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"Como vários scanners usam o sistema ao mesmo tempo?"</strong>
+      <span>O controle de concorrência ocorre em duas camadas: no app, usamos <code>AtomicBoolean</code> para evitar processamento duplo no mesmo dispositivo. No servidor, as operações são transacionais no banco — dois scanners simultâneos não conseguem validar o mesmo ingresso duas vezes.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"Por que Java e não Kotlin para o Android?"</strong>
+      <span>Java é a linguagem base que estudamos na disciplina. O Android suporta ambas nativamente — a migração para Kotlin seria um próximo passo natural, pois o código Java é 100% interoperável com Kotlin.</span>
+    </div>
+  </div>
+  <div class="desafio-item solucao">
+    <div class="desafio-num">?</div>
+    <div class="desafio-texto">
+      <strong>"O que é o Relatório de Presença ao Vivo?"</strong>
+      <span>É a 5ª aba do painel admin. Exibe em tempo real: barra visual de capacidade do evento, 4 cards com total de ingressos, quantidade dentro agora, quantidade que já saiu e taxa de presença. Abaixo, lista cada participante com o horário exato de entrada e saída extraído da tabela de leituras.</span>
+    </div>
+  </div>
+
+  <div class="dica">
+    <span class="dica-icone">⭐</span>
+    <div><strong>Dica final:</strong> Se não souber responder uma pergunta, não invente. Diga: <em>"Essa é uma ótima pergunta — esse ponto específico ficou fora do escopo do nosso MVP, mas identificamos como uma evolução importante para as próximas versões."</em> Isso demonstra maturidade.</div>
+  </div>
+</div>
+
+<div class="rodape">
+  Sistema de Controle de Acesso com QR Code &nbsp;|&nbsp; UNICID &nbsp;|&nbsp; Grupo de 10 integrantes &nbsp;|&nbsp; Apresentação: 30 minutos
+</div>
+
+</body>
+</html>

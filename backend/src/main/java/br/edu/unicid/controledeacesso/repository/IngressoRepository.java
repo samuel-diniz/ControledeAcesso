@@ -11,4 +11,6 @@ public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
     List<Ingresso> findByEventoId(Long eventoId);
     List<Ingresso> findByParticipanteId(Long participanteId);
     long countByEventoIdAndStatus(Long eventoId, String status);
+    void deleteByEventoId(Long eventoId);
+    void deleteByParticipanteId(Long participanteId);
 }

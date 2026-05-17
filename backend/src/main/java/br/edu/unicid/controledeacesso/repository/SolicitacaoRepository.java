@@ -8,4 +8,6 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     List<Solicitacao> findByStatusOrderBySolicitadoEmDesc(String status);
     List<Solicitacao> findByParticipanteIdOrderBySolicitadoEmDesc(Long participanteId);
     boolean existsByParticipanteIdAndEventoId(Long participanteId, Long eventoId);
+    void deleteByEventoId(Long eventoId);
+    void deleteByParticipanteId(Long participanteId);
 }

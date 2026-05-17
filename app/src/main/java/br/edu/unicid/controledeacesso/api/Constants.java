@@ -12,5 +12,5 @@ public class Constants {
     // public static final String BASE_URL = "http://192.168.137.1:8080/";
 
     // ▼ CELULAR FÍSICO via Wi-Fi doméstica (IP do notebook na rede)
-    public static final String BASE_URL = "http://192.168.0.177:8080/";
+    public static final String BASE_URL = "http://192.168.15.11:8080/";
 }

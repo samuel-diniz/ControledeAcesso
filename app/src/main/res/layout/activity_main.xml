@@ -119,6 +119,17 @@
             android:backgroundTint="#212121"
             android:layout_marginTop="8dp" />
 
+        <!-- Configurar IP do servidor -->
+        <TextView
+            android:id="@+id/btn_config_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&#9881; Configurar IP do servidor"
+            android:textSize="12sp"
+            android:textColor="#9E9E9E"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp" />
+
     </LinearLayout>
 
 </ScrollView>

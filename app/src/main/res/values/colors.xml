@@ -2,4 +2,34 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- UniPass Brand -->
+    <color name="primary">#1E40AF</color>
+    <color name="primary_dark">#1E3A8A</color>
+    <color name="primary_mid">#2563EB</color>
+    <color name="primary_light">#DBEAFE</color>
+    <color name="accent">#7C3AED</color>
+    <color name="accent_light">#EDE9FE</color>
+
+    <!-- Semantic -->
+    <color name="success">#16A34A</color>
+    <color name="success_light">#DCFCE7</color>
+    <color name="warning">#D97706</color>
+    <color name="warning_light">#FEF3C7</color>
+    <color name="error">#DC2626</color>
+    <color name="error_light">#FEE2E2</color>
+    <color name="info">#0891B2</color>
+    <color name="info_light">#CFFAFE</color>
+    <color name="purple">#7C3AED</color>
+    <color name="purple_light">#EDE9FE</color>
+
+    <!-- Neutral -->
+    <color name="surface">#FFFFFF</color>
+    <color name="background">#F1F5F9</color>
+    <color name="card_border">#E2E8F0</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#475569</color>
+    <color name="text_hint">#94A3B8</color>
+    <color name="overlay_dark">#CC000000</color>
 </resources>

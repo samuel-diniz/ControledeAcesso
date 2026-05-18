@@ -3,18 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="@color/background">
 
-    <TextView
+    <!-- Header bar -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📋 Solicitações Pendentes"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#212121"
-        android:padding="16dp"
-        android:background="@android:color/white"
-        android:elevation="2dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp"
+        android:background="@color/surface">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="22dp"
+            android:background="@color/warning"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Solicitações Pendentes"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puxe para atualizar"
+            android:textSize="10sp"
+            android:textColor="@color/text_hint" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_solicitacoes"
@@ -31,17 +59,18 @@
                 android:id="@+id/tv_sem_solicitacoes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nenhuma solicitação pendente.\nPuxe para baixo para atualizar."
-                android:textColor="#9E9E9E"
+                android:text="✅ Nenhuma solicitação pendente.\nPuxe para baixo para atualizar."
+                android:textColor="@color/text_hint"
+                android:textSize="14sp"
                 android:gravity="center"
-                android:padding="40dp"
+                android:padding="48dp"
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_solicitacoes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
+                android:paddingVertical="8dp"
                 android:clipToPadding="false" />
 
         </LinearLayout>

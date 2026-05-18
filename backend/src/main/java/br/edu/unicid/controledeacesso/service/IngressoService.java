@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IngressoService {
@@ -25,14 +26,21 @@ public class IngressoService {
     }
 
     public Ingresso gerar(Long eventoId, Long participanteId) {
-        var evento = eventoRepository.findById(eventoId)
+        eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento nao encontrado"));
-        var participante = participanteRepository.findById(participanteId)
+        participanteRepository.findById(participanteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante nao encontrado"));
 
+        // Prevent duplicate ingressos: return existing one if already present
+        Optional<Ingresso> existing = ingressoRepository
+                .findByEventoIdAndParticipanteId(eventoId, participanteId);
+        if (existing.isPresent()) {
+            return existing.get();
+        }
+
         Ingresso ingresso = new Ingresso();
-        ingresso.setEvento(evento);
-        ingresso.setParticipante(participante);
+        ingresso.setEvento(eventoRepository.findById(eventoId).get());
+        ingresso.setParticipante(participanteRepository.findById(participanteId).get());
         return ingressoRepository.save(ingresso);
     }
 

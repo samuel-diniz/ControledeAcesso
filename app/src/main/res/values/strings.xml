@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">Controle de Acesso</string>
+    <string name="app_name">UniPass</string>
     <string name="btn_admin">Painel Admin</string>
     <string name="btn_scanner">Scanner QR Code</string>
     <string name="btn_qrcode">Meu Ingresso</string>
     <string name="tab_eventos">Eventos</string>
     <string name="tab_participantes">Participantes</string>
     <string name="tab_dashboard">Dashboard</string>
+    <string name="tab_solicitacoes">Solicitações</string>
+    <string name="tab_relatorio">Relatório</string>
 </resources>

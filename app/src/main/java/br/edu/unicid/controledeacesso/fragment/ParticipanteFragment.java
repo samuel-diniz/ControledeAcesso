@@ -2,9 +2,12 @@ package br.edu.unicid.controledeacesso.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,13 +31,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ParticipanteFragment extends Fragment {
 
+    private static final int REFRESH_INTERVAL_MS = 8000;
+
     private EditText etNome, etEmail, etTelefone;
     private ParticipanteAdapter adapter;
+    private Spinner spinnerEvento;
     private List<Evento> eventos = new ArrayList<>();
+    private Long selectedEventoId = null;
+
+    private final Handler refreshHandler = new Handler(Looper.getMainLooper());
+    private Runnable refreshRunnable;
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,9 +54,10 @@ public class ParticipanteFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_participante, container, false);
 
-        etNome     = v.findViewById(R.id.et_p_nome);
-        etEmail    = v.findViewById(R.id.et_p_email);
-        etTelefone = v.findViewById(R.id.et_p_telefone);
+        etNome        = v.findViewById(R.id.et_p_nome);
+        etEmail       = v.findViewById(R.id.et_p_email);
+        etTelefone    = v.findViewById(R.id.et_p_telefone);
+        spinnerEvento = v.findViewById(R.id.spinner_evento_filtro);
 
         RecyclerView rv = v.findViewById(R.id.rv_participantes);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -56,10 +69,86 @@ public class ParticipanteFragment extends Fragment {
 
         v.findViewById(R.id.btn_cadastrar_p).setOnClickListener(x -> cadastrarParticipante());
 
+        // Polling runnable — refreshes participants + status badge every 8 s
+        refreshRunnable = () -> {
+            carregarParticipantes();
+            if (selectedEventoId != null) carregarStatusIngressos(selectedEventoId);
+            refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL_MS);
+        };
+
         carregarEventos();
         carregarParticipantes();
         return v;
     }
+
+    // ── Event filter spinner ──────────────────────────────────────────────────
+
+    /** Populate the spinner after events are loaded from the server. */
+    private void popularSpinnerEventos() {
+        List<String> nomes = new ArrayList<>();
+        nomes.add("— Todos os participantes —");
+        for (Evento e : eventos) nomes.add(e.getNome());
+
+        ArrayAdapter<String> sa = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, nomes);
+        sa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEvento.setAdapter(sa);
+
+        spinnerEvento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    selectedEventoId = null;
+                    adapter.setStatusMap(null);   // hide status badges
+                } else {
+                    selectedEventoId = eventos.get(position - 1).getId();
+                    carregarStatusIngressos(selectedEventoId);
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    /** Fetch ingressos for the selected event and build a participanteId→status map. */
+    private void carregarStatusIngressos(long eventoId) {
+        ApiClient.get().listarIngressosPorEvento(eventoId)
+                .enqueue(new Callback<List<Ingresso>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Ingresso>> call,
+                                   @NonNull Response<List<Ingresso>> r) {
+                if (r.isSuccessful() && r.body() != null) {
+                    Map<Long, String> map = new HashMap<>();
+                    for (Ingresso ing : r.body()) {
+                        if (ing.getParticipante() != null
+                                && ing.getParticipante().getId() != null) {
+                            map.put(ing.getParticipante().getId(),
+                                    ing.getStatus() != null ? ing.getStatus() : "PENDENTE");
+                        }
+                    }
+                    runUI(() -> adapter.setStatusMap(map));
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<List<Ingresso>> c, @NonNull Throwable t) {}
+        });
+    }
+
+    // ── Lifecycle: start / stop polling ──────────────────────────────────────
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Start polling 8 s after the fragment becomes visible
+        refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL_MS);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshHandler.removeCallbacks(refreshRunnable);
+    }
+
+    // ── CRUD actions ──────────────────────────────────────────────────────────
 
     private void cadastrarParticipante() {
         String nome  = etNome.getText().toString().trim();
@@ -72,7 +161,8 @@ public class ParticipanteFragment extends Fragment {
 
         ApiClient.get().criarParticipante(p).enqueue(new Callback<Participante>() {
             @Override
-            public void onResponse(@NonNull Call<Participante> call, @NonNull Response<Participante> r) {
+            public void onResponse(@NonNull Call<Participante> call,
+                                   @NonNull Response<Participante> r) {
                 if (r.isSuccessful()) {
                     runUI(() -> {
                         toast("Participante cadastrado com sucesso!");
@@ -117,7 +207,7 @@ public class ParticipanteFragment extends Fragment {
                     Ingresso ingresso = r.body();
                     runUI(() -> new AlertDialog.Builder(requireContext())
                             .setTitle("✅ Ingresso Gerado!")
-                            .setMessage("QR Code gerado com sucesso para " + participante.getNome()
+                            .setMessage("QR Code gerado para " + participante.getNome()
                                     + " no evento \"" + evento.getNome() + "\".\n\n"
                                     + "O participante já pode acessar seu QR Code pelo app.")
                             .setPositiveButton("Ver QR Code", (d, w) -> {
@@ -129,13 +219,13 @@ public class ParticipanteFragment extends Fragment {
                             .setNegativeButton("Fechar", null)
                             .show());
                 } else {
-                    showError("❌ Erro ao gerar ingresso. Verifique se já existe um ingresso para este participante neste evento.");
+                    showError("❌ Erro ao gerar ingresso (" + r.code() + ")");
                 }
             }
             @Override public void onFailure(@NonNull Call<Ingresso> c, @NonNull Throwable t) {
                 runUI(() -> new AlertDialog.Builder(requireContext())
                         .setTitle("❌ Erro ao Gerar Ingresso")
-                        .setMessage("Falha de conexão com o servidor.\n" + t.getMessage())
+                        .setMessage("Falha de conexão.\n" + t.getMessage())
                         .setPositiveButton("OK", null)
                         .show());
             }
@@ -152,7 +242,6 @@ public class ParticipanteFragment extends Fragment {
         etE.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         EditText etT = new EditText(requireContext()); etT.setHint("Telefone"); etT.setText(p.getTelefone());
         etT.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
-
         layout.addView(etN); layout.addView(etE); layout.addView(etT);
 
         new AlertDialog.Builder(requireContext())
@@ -163,11 +252,17 @@ public class ParticipanteFragment extends Fragment {
                     String email = etE.getText().toString().trim();
                     if (nome.isEmpty() || email.isEmpty()) { toast("Nome e e-mail são obrigatórios"); return; }
                     Participante atualizado = new Participante();
-                    atualizado.setNome(nome); atualizado.setEmail(email); atualizado.setTelefone(etT.getText().toString().trim());
-                    ApiClient.get().atualizarParticipante(p.getId(), atualizado).enqueue(new Callback<Participante>() {
+                    atualizado.setNome(nome); atualizado.setEmail(email);
+                    atualizado.setTelefone(etT.getText().toString().trim());
+                    ApiClient.get().atualizarParticipante(p.getId(), atualizado)
+                            .enqueue(new Callback<Participante>() {
                         @Override
-                        public void onResponse(@NonNull Call<Participante> call, @NonNull Response<Participante> r) {
-                            if (r.isSuccessful()) runUI(() -> { toast("Participante atualizado!"); carregarParticipantes(); });
+                        public void onResponse(@NonNull Call<Participante> call,
+                                               @NonNull Response<Participante> r) {
+                            if (r.isSuccessful()) runUI(() -> {
+                                toast("Participante atualizado!");
+                                carregarParticipantes();
+                            });
                             else showError("Erro ao atualizar participante");
                         }
                         @Override public void onFailure(@NonNull Call<Participante> c, @NonNull Throwable t) {
@@ -187,7 +282,10 @@ public class ParticipanteFragment extends Fragment {
                         ApiClient.get().deletarParticipante(p.getId()).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> r) {
-                                if (r.isSuccessful()) runUI(() -> { toast("Participante excluído!"); carregarParticipantes(); });
+                                if (r.isSuccessful()) runUI(() -> {
+                                    toast("Participante excluído!");
+                                    carregarParticipantes();
+                                });
                                 else showError("Erro ao excluir participante");
                             }
                             @Override public void onFailure(@NonNull Call<Void> c, @NonNull Throwable t) {
@@ -198,10 +296,13 @@ public class ParticipanteFragment extends Fragment {
                 .show();
     }
 
+    // ── Data loading ──────────────────────────────────────────────────────────
+
     private void carregarParticipantes() {
         ApiClient.get().listarParticipantes().enqueue(new Callback<List<Participante>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Participante>> call, @NonNull Response<List<Participante>> r) {
+            public void onResponse(@NonNull Call<List<Participante>> call,
+                                   @NonNull Response<List<Participante>> r) {
                 if (r.isSuccessful() && r.body() != null) runUI(() -> adapter.setItems(r.body()));
             }
             @Override public void onFailure(@NonNull Call<List<Participante>> c, @NonNull Throwable t) {}
@@ -211,14 +312,21 @@ public class ParticipanteFragment extends Fragment {
     private void carregarEventos() {
         ApiClient.get().listarEventos().enqueue(new Callback<List<Evento>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Evento>> call, @NonNull Response<List<Evento>> r) {
-                if (r.isSuccessful() && r.body() != null) eventos = r.body();
+            public void onResponse(@NonNull Call<List<Evento>> call,
+                                   @NonNull Response<List<Evento>> r) {
+                if (r.isSuccessful() && r.body() != null) {
+                    eventos = r.body();
+                    runUI(this::populateSpinner);
+                }
             }
+            private void populateSpinner() { popularSpinnerEventos(); }
             @Override public void onFailure(@NonNull Call<List<Evento>> c, @NonNull Throwable t) {}
         });
     }
 
-    private void toast(String msg) { Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show(); }
-    private void showError(String msg) { runUI(() -> Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show()); }
-    private void runUI(Runnable r) { if (getActivity() != null) requireActivity().runOnUiThread(r); }
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    private void toast(String msg)      { Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show(); }
+    private void showError(String msg)  { runUI(() -> Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show()); }
+    private void runUI(Runnable r)      { if (getActivity() != null) requireActivity().runOnUiThread(r); }
 }

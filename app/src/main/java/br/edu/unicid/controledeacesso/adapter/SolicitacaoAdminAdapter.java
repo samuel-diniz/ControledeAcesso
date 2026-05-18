@@ -51,7 +51,7 @@ public class SolicitacaoAdminAdapter extends RecyclerView.Adapter<SolicitacaoAdm
 
         // Evento
         String nomeE = (s.getEvento() != null && s.getEvento().getNome() != null)
-                ? "🎟 " + s.getEvento().getNome() : "—";
+                ? s.getEvento().getNome() : "—";
         h.tvEvento.setText(nomeE);
 
         // Data

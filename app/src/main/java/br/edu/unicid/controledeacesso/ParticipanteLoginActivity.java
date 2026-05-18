@@ -38,11 +38,12 @@ public class ParticipanteLoginActivity extends AppCompatActivity {
     private EditText etEmail;
 
     // — Cadastro (bloco amarelo)
-    private LinearLayout layoutCadastro;
+    private View layoutCadastro;
     private EditText etNomeCadastro, etTelefoneCadastro;
 
     // — Blocos pós-login
-    private LinearLayout layoutSolicitar, layoutMinhasSolicitacoes, layoutIngressos;
+    private View layoutSolicitar;
+    private LinearLayout layoutMinhasSolicitacoes, layoutIngressos;
 
     // — Solicitar vaga
     private Spinner spinnerEventos;
